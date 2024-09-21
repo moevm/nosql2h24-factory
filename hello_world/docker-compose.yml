@@ -25,3 +25,9 @@ services:
     ports:
       - "8080:8080"
 
+  frontend:
+    build:
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "81:80"
+
