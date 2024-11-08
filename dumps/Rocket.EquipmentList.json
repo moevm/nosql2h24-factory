@@ -1,0 +1,807 @@
+[{
+  "_id": {
+    "$oid": "661f83f1ebf805fb43955bf7"
+  },
+  "key": "cnc1",
+  "name": "ЧПУ 1",
+  "details": {
+    "SN": "XAA911-004555",
+    "location": "Цех 1",
+    "manufacturer": "CBA",
+    "model": "Model 9 kW",
+    "status": "В работе",
+    "year": 2020,
+    "group": "ЧПУ"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_56/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_56/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_56/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 12,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_56/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_56/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_56/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_56/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_56/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_56/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 3000,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_56/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_56/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_56/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 700
+  },
+  "working_time": {
+    "work": 20,
+    "all_time": 800,
+    "turn_on": 1,
+    "not_work": 0
+  }
+},
+{
+  "_id": {
+    "$oid": "661fb617ebf805fb43955c22"
+  },
+  "key": "cnc2",
+  "name": "ЧПУ 2",
+  "details": {
+    "SN": "XAA912-004556",
+    "location": "Цех 1",
+    "manufacturer": "CBA",
+    "model": "Model 11 kW",
+    "status": "В работе",
+    "year": 2019,
+    "group": "ЧПУ"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_184/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_184/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_184/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 39,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_184/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_184/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_184/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_184/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_184/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_184/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 12000,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_184/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_184/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_184/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 1500
+  },
+  "working_time": {
+    "work": 27,
+    "all_time": 696,
+    "turn_on": 0,
+    "not_work": 0
+  }
+},
+{
+  "_id": {
+    "$oid": "661fb66aebf805fb43955c26"
+  },
+  "key": "cnc3",
+  "name": "ЧПУ 3",
+  "details": {
+    "manufacturer": "CBA",
+    "model": "Model 9 kW",
+    "SN": "XAA911-004557",
+    "year": 2020,
+    "location": "Цех 2",
+    "status": "В работе",
+    "group": "ЧПУ"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_161/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_161/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_161/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 22,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_161/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_161/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_161/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_161/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_161/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_161/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 13000,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_161/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_161/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_161/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 3700
+  },
+  "working_time": {
+    "work": 0,
+    "all_time": 564,
+    "turn_on": 22,
+    "not_work": 0
+  }
+},
+{
+  "_id": {
+    "$oid": "661fb677ebf805fb43955c29"
+  },
+  "key": "cnc4",
+  "name": "ЧПУ 4",
+  "details": {
+    "manufacturer": "CBA",
+    "model": "Model 11 kW",
+    "SN": "XAA912-004558",
+    "year": 2020,
+    "location": "Цех 2",
+    "status": "В ремонте",
+    "group": "ЧПУ"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_219/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_219/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_219/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 19,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_219/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_219/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_219/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_219/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_219/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_219/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 8000,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_219/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_219/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_219/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 8000
+  },
+  "working_time": {
+    "work": 0,
+    "turn_on": 123,
+    "not_work": 0
+  }
+},
+{
+  "_id": {
+    "$oid": "661fb695ebf805fb43955c2c"
+  },
+  "key": "gib3n",
+  "name": "Гибочный 3 м. новый",
+  "details": {
+    "manufacturer": "CBA",
+    "model": "Model 9 kW",
+    "SN": "XAA911-004559",
+    "year": 2022,
+    "location": "Цех 3",
+    "status": "В работе",
+    "group": "Гибочные"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_196/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_196/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_196/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 35,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_196/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_196/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_196/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_196/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_196/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_196/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 13500,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_196/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_196/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_196/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 300
+  },
+  "working_time": {
+    "work": 1,
+    "turn_on": 0,
+    "all_time": 374,
+    "not_work": 0,
+    "turn_off": 0
+  }
+},
+{
+  "_id": {
+    "$oid": "661fb6beebf805fb43955c2f"
+  },
+  "key": "gib3",
+  "name": "Гибочный 3 м.",
+  "details": {
+    "manufacturer": "CBA",
+    "model": "Model 11 kW",
+    "SN": "XAA912-004560",
+    "year": 2021,
+    "location": "Цех 3",
+    "status": "В работе",
+    "group": "Гибочные"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_38/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_38/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_38/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 35,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_38/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_38/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_38/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_38/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_38/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_38/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 13500,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_38/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_38/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_38/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 300
+  },
+  "working_time": {
+    "work": 0,
+    "all_time": 330,
+    "turn_on": 10,
+    "not_work": 0,
+    "turn_off": 5
+  }
+},
+{
+  "_id": {
+    "$oid": "661fb6d9ebf805fb43955c34"
+  },
+  "key": "gib2",
+  "name": "Гибочный 2 м.",
+  "details": {
+    "manufacturer": "CBA",
+    "model": "Model 11 kW",
+    "SN": "XAA912-004560",
+    "year": 2021,
+    "location": "Цех 3",
+    "status": "В работе",
+    "group": "Гибочные"
+  },
+  "parameters": {
+    "voltage": {
+      "translate": "Напряжение",
+      "unit": "В",
+      "threshold": 253,
+      "subparameters": {
+        "voltage_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_160/controls/Urms L1"
+        },
+        "voltage_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_160/controls/Urms L2"
+        },
+        "voltage_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_160/controls/Urms L3"
+        }
+      }
+    },
+    "current": {
+      "translate": "Ток",
+      "unit": "А",
+      "threshold": 16,
+      "subparameters": {
+        "current_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_160/controls/Irms L1"
+        },
+        "current_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_160/controls/Irms L2"
+        },
+        "current_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_160/controls/Irms L3"
+        }
+      }
+    },
+    "power": {
+      "translate": "Мощность",
+      "unit": "Вт",
+      "subparameters": {
+        "power_l1": {
+          "translate": "L1",
+          "topic": "/devices/wb-map3e_160/controls/P L1"
+        },
+        "power_l2": {
+          "translate": "L2",
+          "topic": "/devices/wb-map3e_160/controls/P L2"
+        },
+        "power_l3": {
+          "translate": "L3",
+          "topic": "/devices/wb-map3e_160/controls/P L3"
+        }
+      }
+    },
+    "total_power": {
+      "translate": "Общая мощность",
+      "unit": "Вт",
+      "threshold": 5500,
+      "subparameters": {
+        "total_power": {
+          "translate": "Общая мощность",
+          "topic": "/devices/wb-map3e_160/controls/Total P"
+        }
+      }
+    },
+    "total_ap_power": {
+      "translate": "Общая активная энергия",
+      "unit": "кВт/ч",
+      "subparameters": {
+        "total_ap_power": {
+          "translate": "Общая активная энергия",
+          "topic": "/devices/wb-map3e_160/controls/Total AP energy"
+        }
+      }
+    },
+    "frequency": {
+      "translate": "Частота",
+      "unit": "Гц",
+      "subparameters": {
+        "frequency": {
+          "translate": "Частота",
+          "topic": "/devices/wb-map3e_160/controls/Frequency"
+        }
+      }
+    }
+  },
+  "working_parameter": {
+    "name": "total_power",
+    "threshold": 300
+  },
+  "working_time": {
+    "work": 10,
+    "turn_on": 5,
+    "not_work": 0,
+    "turn_off": 0,
+    "all_time": 279
+  }
+}]

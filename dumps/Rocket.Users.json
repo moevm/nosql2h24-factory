@@ -1,0 +1,42 @@
+[{
+  "_id": {
+    "$oid": "6666c97bf65557d20534a593"
+  },
+  "password": "rocket",
+  "username": "rocket1"
+},
+{
+  "_id": {
+    "$oid": "6686aaec26292ec9da5c8651"
+  },
+  "password": "rocket",
+  "username": "rocket2"
+},
+{
+  "_id": {
+    "$oid": "6686aaf226292ec9da5c8652"
+  },
+  "password": "a",
+  "username": "a"
+},
+{
+  "_id": {
+    "$oid": "6687fe99127381aed6117386"
+  },
+  "username": "f",
+  "password": "f"
+},
+{
+  "_id": {
+    "$oid": "668e6605a0055453f04a895b"
+  },
+  "username": "demo",
+  "password": "demo"
+},
+{
+  "_id": {
+    "$oid": "66bc972eb6d78b34db45facf"
+  },
+  "username": "demo2024",
+  "password": "2024demo"
+}]
