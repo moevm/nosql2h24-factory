@@ -1,0 +1,40 @@
+# compose.yaml
+services:
+  influxdb2:
+    env_file:
+      - .env
+    image: influxdb:2
+    ports:
+      - 8086:8086
+
+  mongo:  
+    env_file:
+      - .env
+    image: mongo
+    restart: always
+    ports: 
+      - "27017:27017"
+    environment:
+  
+  mongo-seed:
+    env_file:
+      - .env
+    build:
+      dockerfile: mongo_seed.Dockerfile
+    depends_on:
+      - mongo
+
+  backend:
+    env_file:
+      - .env
+    build:
+      dockerfile: backend.Dockerfile
+    ports:
+      - "8080:8080"
+
+  frontend:
+    build:
+      dockerfile: frontend.Dockerfile
+    ports:
+      - "81:80"
+
