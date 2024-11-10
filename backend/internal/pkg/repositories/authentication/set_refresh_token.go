@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	domain "vvnbd/internal/pkg/domain/authentication"
-	"vvnbd/internal/pkg/domain/db"
+	"vvnbd/internal/pkg/domain/errors"
 
 	"go.mongodb.org/mongo-driver/bson"
 )
@@ -25,7 +25,7 @@ func (r *Repository) SetRefreshToken(ctx context.Context, secrets domain.Refresh
 		return fmt.Errorf("unable to get data from mongo. Err: %w", err)
 	}
 	if res.ModifiedCount == 0 {
-		return &db.NotFoundError{}
+		return &errors.NotFoundError{}
 	}
 
 	return nil

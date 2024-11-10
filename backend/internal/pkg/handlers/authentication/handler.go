@@ -7,18 +7,24 @@ import (
 	"github.com/labstack/echo"
 )
 
-type service interface {
+type authService interface {
 	Login(ctx context.Context, credentials domain.UserCredentials) (domain.UserTokens, error)
 	RefreshTokens(ctx context.Context, refresToken string) (domain.UserTokens, error)
 }
 
-type Handler struct {
-	service service
+type logoDao interface {
+	GetLogo(ctx context.Context) (string, error)
 }
 
-func NewHandler(ctx context.Context, service service) *Handler {
+type Handler struct {
+	authService authService
+	logoDao     logoDao
+}
+
+func NewHandler(ctx context.Context, authService authService, logoDao logoDao) *Handler {
 	return &Handler{
-		service: service,
+		authService: authService,
+		logoDao:     logoDao,
 	}
 }
 
@@ -27,4 +33,5 @@ func (h *Handler) RouteHandler(e *echo.Echo) {
 
 	group.POST("/login", h.Login)
 	group.POST("/refresh_token", h.RefreshTokens)
+	group.GET("/logo", h.GetLogo)
 }

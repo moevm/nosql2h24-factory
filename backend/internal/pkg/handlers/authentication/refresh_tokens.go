@@ -12,7 +12,7 @@ import (
 func (h *Handler) RefreshTokens(c echo.Context) error {
 	refreshToken := c.Request().Header.Get("Authorization")[7:]
 
-	tokens, err := h.service.RefreshTokens(c.Request().Context(), refreshToken)
+	tokens, err := h.authService.RefreshTokens(c.Request().Context(), refreshToken)
 	if err != nil {
 		badPassErr := errs.NewAuthorizationError()
 		if errors.As(err, &badPassErr) {

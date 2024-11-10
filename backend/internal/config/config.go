@@ -19,6 +19,7 @@ const (
 	MongoHost      = "DATABASE_HOST"
 	DatabaseName   = "DATABASE_NAME"
 	UserCollection = "USER_COLLECTION"
+	LogoCollection = "LOGO_COLLECTION"
 
 	// influx configs
 	InfluxToken = "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN"

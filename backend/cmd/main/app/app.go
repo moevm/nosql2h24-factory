@@ -7,12 +7,9 @@ import (
 	"vvnbd/internal/config"
 	"vvnbd/internal/pkg/db"
 	authhandlers "vvnbd/internal/pkg/handlers/authentication"
-	testhandlers "vvnbd/internal/pkg/handlers/test_handlers"
 	authrepo "vvnbd/internal/pkg/repositories/authentication"
-	testinfluxrepo "vvnbd/internal/pkg/repositories/influx"
-	testmongorepo "vvnbd/internal/pkg/repositories/mongo"
+	"vvnbd/internal/pkg/repositories/logo"
 	authservice "vvnbd/internal/pkg/service/authentication"
-	testservice "vvnbd/internal/pkg/service/test_service"
 
 	"github.com/labstack/echo"
 )
@@ -23,18 +20,13 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 		return fmt.Errorf("unble to create mong client Err: %w", err)
 	}
 
-	influxClient, err := db.NewInfluxClient(ctx)
-	if err != nil {
-		return fmt.Errorf("unable to create influx client Err: %w", err)
-	}
-
 	dbName, err := config.GetValue(config.DatabaseName)
 	if err != nil {
 		return fmt.Errorf("cannot get db name from config. Err: %w", err)
 	}
 	usersCollection, err := config.GetValue(config.UserCollection)
 	if err != nil {
-		return fmt.Errorf("cannot get db name from config. Err: %w", err)
+		return fmt.Errorf("cannot get user collection from config. Err: %w", err)
 	}
 
 	authRepo := authrepo.NewRepository(
@@ -75,19 +67,19 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 		secretKey,
 	)
 
-	authHandler := authhandlers.NewHandler(ctx, authService)
+	logoCollection, err := config.GetValue(config.LogoCollection)
+	if err != nil {
+		return fmt.Errorf("cannot get logo collection from config. Err: %w", err)
+	}
+
+	logoRepo := logo.NewRepository(ctx, mongoClient, dbName, logoCollection)
+
+	authHandler := authhandlers.NewHandler(ctx, authService, logoRepo)
 	authHandler.RouteHandler(e)
 
-	mongoRepo := testmongorepo.NewRepository(ctx, mongoClient)
-
-	influxRepo := testinfluxrepo.NewRepository(ctx, influxClient)
-
-	service := testservice.NewService(ctx, mongoRepo, influxRepo)
-
-	handler := testhandlers.NewHandler(ctx, service)
-
-	e.GET("/get", handler.GetHelloWorld)
-	e.GET("/set", handler.SetHelloWorld)
-
+	// influxClient, err := db.NewInfluxClient(ctx)
+	// if err != nil {
+	// 	return fmt.Errorf("unable to create influx client Err: %w", err)
+	// }
 	return nil
 }

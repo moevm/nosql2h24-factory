@@ -4,7 +4,7 @@ import (
 	"context"
 	"fmt"
 	domain "vvnbd/internal/pkg/domain/authentication"
-	"vvnbd/internal/pkg/domain/db"
+	"vvnbd/internal/pkg/domain/errors"
 
 	"go.mongodb.org/mongo-driver/bson"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -20,7 +20,7 @@ func (r *Repository) GetUserAccessInfo(ctx context.Context, username string) (do
 
 	if err != nil {
 		if err == mongo.ErrNoDocuments {
-			return domain.UserAccessInfo{}, &db.NotFoundError{}
+			return domain.UserAccessInfo{}, &errors.NotFoundError{}
 		}
 
 		return domain.UserAccessInfo{}, fmt.Errorf("unable to get data from mongo. Err: %w", err)

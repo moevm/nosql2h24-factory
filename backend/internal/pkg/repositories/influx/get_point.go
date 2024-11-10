@@ -2,7 +2,7 @@ package testinfluxrepo
 
 import (
 	"fmt"
-	"vvnbd/internal/pkg/domain/db"
+	"vvnbd/internal/pkg/domain/errors"
 
 	"golang.org/x/net/context"
 )
@@ -27,5 +27,5 @@ func (r *Repository) GetPoint(ctx context.Context) (string, error) {
 		return fmt.Sprintf("row: %s\n", result.Record().String()), nil
 	}
 
-	return "", &db.NotFoundError{}
+	return "", &errors.NotFoundError{}
 }

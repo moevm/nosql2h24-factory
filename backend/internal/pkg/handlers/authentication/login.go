@@ -17,7 +17,7 @@ func (h *Handler) Login(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "bad login data")
 	}
 
-	tokens, err := h.service.Login(c.Request().Context(), domain.UserCredentials{
+	tokens, err := h.authService.Login(c.Request().Context(), domain.UserCredentials{
 		Username: body.Username,
 		Password: body.Password,
 	})
