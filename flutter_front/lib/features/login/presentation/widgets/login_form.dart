@@ -54,12 +54,12 @@ class _LoginFormState extends State<LoginForm> {
           },
           child: Stack(
             children: [
-              Image.asset(
-                'assets/background.png',
-                fit: BoxFit.cover,
-                width: double.infinity,
-                height: double.infinity,
-              ),
+              // Image.asset(
+              //   'assets/background.png',
+              //   fit: BoxFit.cover,
+              //   width: double.infinity,
+              //   height: double.infinity,
+              // ),
               Center(
                 child: SingleChildScrollView(
                   child: Container(

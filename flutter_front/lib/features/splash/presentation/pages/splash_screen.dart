@@ -39,7 +39,7 @@ class SplashScreen extends StatelessWidget {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Image.asset('assets/555.png'),
+                  //Image.asset('assets/555.png'),
                   const SizedBox(height: 20),
                   if (state is! SplashMultipleUsers)
                     const CircularProgressIndicator(),
