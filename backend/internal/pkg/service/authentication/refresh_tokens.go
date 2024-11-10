@@ -34,7 +34,7 @@ func (s *Service) RefreshTokens(ctx context.Context, refreshToken string) (domai
 		return domain.UserTokens{}, fmt.Errorf("unable to get username from token. Err: %w", err)
 	}
 
-	accessInfo, err := s.dao.GetUserAccessInfo(ctx, username.(string))
+	accessInfo, err := s.usersDao.GetUserAccessInfo(ctx, username.(string))
 	if err != nil {
 		return domain.UserTokens{}, fmt.Errorf("unable to get user access info. Err: %w", err)
 	}
@@ -43,5 +43,5 @@ func (s *Service) RefreshTokens(ctx context.Context, refreshToken string) (domai
 		return domain.UserTokens{}, errors.NewAuthorizationError()
 	}
 
-	return s.generateTokens(ctx, accessInfo.Username, accessInfo.Role)
+	return s.generateTokens(ctx, accessInfo.Username)
 }

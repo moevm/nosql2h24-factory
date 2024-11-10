@@ -10,6 +10,10 @@ import (
 	"github.com/labstack/echo"
 )
 
+const (
+	ContextUsername = "username"
+)
+
 func Authenticate(allowedRoles domain.RoleWhitelist, handler func(c echo.Context) error) func(c echo.Context) error {
 	return func(c echo.Context) error {
 		authHeaderContenent := c.Request().Header.Get("Authorization")
@@ -54,6 +58,8 @@ func Authenticate(allowedRoles domain.RoleWhitelist, handler func(c echo.Context
 		if !allowedRoles.IsAllowed(role) {
 			return c.NoContent(http.StatusForbidden)
 		}
+
+		c.Set(ContextUsername, claims["sub"])
 
 		return handler(c)
 	}

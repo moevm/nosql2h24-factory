@@ -8,10 +8,13 @@ import (
 	"vvnbd/internal/pkg/db"
 	authhandlers "vvnbd/internal/pkg/handlers/authentication"
 	equipmenthandler "vvnbd/internal/pkg/handlers/equipment"
+	settingshandler "vvnbd/internal/pkg/handlers/settings"
 	authrepo "vvnbd/internal/pkg/repositories/authentication"
 	"vvnbd/internal/pkg/repositories/equipment"
 	"vvnbd/internal/pkg/repositories/logo"
+	staffrepo "vvnbd/internal/pkg/repositories/staff"
 	authservice "vvnbd/internal/pkg/service/authentication"
+	settingsservice "vvnbd/internal/pkg/service/settings"
 
 	"github.com/labstack/echo"
 )
@@ -37,6 +40,13 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 		dbName,
 		usersCollection,
 	)
+
+	staffCollection, err := config.GetValue(config.StaffCollection)
+	if err != nil {
+		return fmt.Errorf("cannot get staff collection from config. Err: %w", err)
+	}
+
+	staffRepo := staffrepo.NewRepository(ctx, mongoClient, dbName, staffCollection)
 
 	accessTokenLifetimeString, err := config.GetValue(config.AccessTokenLifetime)
 	if err != nil {
@@ -64,6 +74,7 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 	authService := authservice.New(
 		ctx,
 		authRepo,
+		staffRepo,
 		accessTokenLifetime,
 		refreshTokenLifetime,
 		secretKey,
@@ -88,6 +99,11 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 
 	equipmentHandler := equipmenthandler.NewHandler(ctx, equipmentRepo)
 	equipmentHandler.RouteHandler(e)
+
+	settingsService := settingsservice.New(ctx, staffRepo)
+
+	settingsHandler := settingshandler.NewHandler(ctx, settingsService)
+	settingsHandler.RouteHandler(e)
 
 	// influxClient, err := db.NewInfluxClient(ctx)
 	// if err != nil {

@@ -11,7 +11,7 @@ import (
 )
 
 func (s *Service) Login(ctx context.Context, credentials domain.UserCredentials) (domain.UserTokens, error) {
-	accessInfo, err := s.dao.GetUserAccessInfo(ctx, credentials.Username)
+	accessInfo, err := s.usersDao.GetUserAccessInfo(ctx, credentials.Username)
 	if err != nil {
 		return domain.UserTokens{}, fmt.Errorf("unable to get user access info. Err: %w", err)
 	}
@@ -20,11 +20,16 @@ func (s *Service) Login(ctx context.Context, credentials domain.UserCredentials)
 		return domain.UserTokens{}, errors.NewAuthorizationError()
 	}
 
-	return s.generateTokens(ctx, credentials.Username, accessInfo.Role)
+	return s.generateTokens(ctx, credentials.Username)
 }
 
-func (s *Service) generateTokens(ctx context.Context, username string, userRole string) (domain.UserTokens, error) {
-	role, ok := domain.GetRole[userRole]
+func (s *Service) generateTokens(ctx context.Context, username string) (domain.UserTokens, error) {
+	user, err := s.staffDao.GetOne(ctx, username)
+	if err != nil {
+		return domain.UserTokens{}, fmt.Errorf("unable to get user info. Err: %w", err)
+	}
+
+	role, ok := domain.GetRole[user.Role]
 	if !ok {
 		role = domain.ROLE_UNKNOWN
 	}
@@ -50,7 +55,7 @@ func (s *Service) generateTokens(ctx context.Context, username string, userRole 
 		return domain.UserTokens{}, fmt.Errorf("cannot sign refresh token. Err: %w", err)
 	}
 
-	err = s.dao.SetRefreshToken(ctx, domain.RefreshTokenData{
+	err = s.usersDao.SetRefreshToken(ctx, domain.RefreshTokenData{
 		Username:     username,
 		RefreshToken: signedRefreshToken,
 	})

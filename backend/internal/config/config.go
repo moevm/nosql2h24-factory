@@ -21,6 +21,7 @@ const (
 	UserCollection      = "USER_COLLECTION"
 	LogoCollection      = "LOGO_COLLECTION"
 	EquipmentCollection = "EQUIPMENT_COLLECTION"
+	StaffCollection     = "STAFF_COLLECTION"
 
 	// influx configs
 	InfluxToken = "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN"

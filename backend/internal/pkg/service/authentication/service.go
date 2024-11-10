@@ -4,15 +4,21 @@ import (
 	"context"
 	"time"
 	domain "vvnbd/internal/pkg/domain/authentication"
+	"vvnbd/internal/pkg/domain/staff"
 )
 
-type dao interface {
+type usersDao interface {
 	GetUserAccessInfo(ctx context.Context, username string) (domain.UserAccessInfo, error)
 	SetRefreshToken(ctx context.Context, secrets domain.RefreshTokenData) error
 }
 
+type staffDao interface {
+	GetOne(ctx context.Context, username string) (staff.PersonData, error)
+}
+
 type Service struct {
-	dao                  dao
+	usersDao             usersDao
+	staffDao             staffDao
 	accessTokenLifetime  time.Duration
 	refreshTokenLifetime time.Duration
 	secretKey            []byte
@@ -20,12 +26,14 @@ type Service struct {
 
 func New(
 	ctx context.Context,
-	dao dao,
+	usersDao usersDao,
+	staffDao staffDao,
 	accessTokenLifetime time.Duration,
 	refreshTokenLifetime time.Duration,
 	secretKey string) *Service {
 	return &Service{
-		dao:                  dao,
+		usersDao:             usersDao,
+		staffDao:             staffDao,
 		accessTokenLifetime:  accessTokenLifetime,
 		refreshTokenLifetime: refreshTokenLifetime,
 		secretKey:            []byte(secretKey),
