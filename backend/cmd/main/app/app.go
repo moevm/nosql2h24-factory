@@ -7,7 +7,9 @@ import (
 	"vvnbd/internal/config"
 	"vvnbd/internal/pkg/db"
 	authhandlers "vvnbd/internal/pkg/handlers/authentication"
+	equipmenthandler "vvnbd/internal/pkg/handlers/equipment"
 	authrepo "vvnbd/internal/pkg/repositories/authentication"
+	"vvnbd/internal/pkg/repositories/equipment"
 	"vvnbd/internal/pkg/repositories/logo"
 	authservice "vvnbd/internal/pkg/service/authentication"
 
@@ -76,6 +78,16 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 
 	authHandler := authhandlers.NewHandler(ctx, authService, logoRepo)
 	authHandler.RouteHandler(e)
+
+	equipmentCollection, err := config.GetValue(config.EquipmentCollection)
+	if err != nil {
+		return fmt.Errorf("cannot get equipment collection from config. Err: %w", err)
+	}
+
+	equipmentRepo := equipment.NewRepository(ctx, mongoClient, dbName, equipmentCollection)
+
+	equipmentHandler := equipmenthandler.NewHandler(ctx, equipmentRepo)
+	equipmentHandler.RouteHandler(e)
 
 	// influxClient, err := db.NewInfluxClient(ctx)
 	// if err != nil {

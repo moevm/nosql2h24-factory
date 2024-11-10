@@ -14,12 +14,13 @@ const (
 	envpath = "./.env"
 
 	// mongo configs
-	MongoUsername  = "MONGO_INITDB_ROOT_USERNAME"
-	MongoPassword  = "MONGO_INITDB_ROOT_PASSWORD"
-	MongoHost      = "DATABASE_HOST"
-	DatabaseName   = "DATABASE_NAME"
-	UserCollection = "USER_COLLECTION"
-	LogoCollection = "LOGO_COLLECTION"
+	MongoUsername       = "MONGO_INITDB_ROOT_USERNAME"
+	MongoPassword       = "MONGO_INITDB_ROOT_PASSWORD"
+	MongoHost           = "DATABASE_HOST"
+	DatabaseName        = "DATABASE_NAME"
+	UserCollection      = "USER_COLLECTION"
+	LogoCollection      = "LOGO_COLLECTION"
+	EquipmentCollection = "EQUIPMENT_COLLECTION"
 
 	// influx configs
 	InfluxToken = "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN"
