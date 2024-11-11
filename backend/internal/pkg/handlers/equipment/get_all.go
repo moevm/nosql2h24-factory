@@ -1,6 +1,7 @@
 package equipment
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/labstack/echo"
@@ -9,7 +10,7 @@ import (
 func (h *Handler) GetAll(c echo.Context) error {
 	equipment, err := h.dao.GetAll(c.Request().Context())
 	if err != nil {
-		c.Echo().Logger.Errorf("cannot get equipment data. Err: %w", err)
+		fmt.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

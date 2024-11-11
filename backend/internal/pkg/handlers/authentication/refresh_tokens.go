@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	domain "vvnbd/internal/pkg/domain/authentication"
 	errs "vvnbd/internal/pkg/domain/errors"
@@ -18,7 +19,7 @@ func (h *Handler) RefreshTokens(c echo.Context) error {
 		if errors.As(err, &badPassErr) {
 			return c.String(http.StatusUnauthorized, "token is no longer active")
 		}
-		c.Echo().Logger.Errorf("cannot refresh token. Err: %w", err)
+		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "cannot refresh token")
 	}
 

@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"fmt"
 	"net/http"
 	domain "vvnbd/internal/pkg/domain/staff"
 	"vvnbd/internal/pkg/middleware"
@@ -12,7 +13,7 @@ func (h *Handler) Export(c echo.Context) error {
 	var body domain.SettingsDTO
 	err := c.Bind(&body)
 	if err != nil {
-		c.Echo().Logger.Errorf("bad settings data. Err: %w", err)
+		fmt.Println(err)
 		return c.String(http.StatusBadRequest, "bad settings data")
 	}
 
@@ -20,7 +21,7 @@ func (h *Handler) Export(c echo.Context) error {
 
 	err = h.service.SetUserSettings(c.Request().Context(), username, body.Settings)
 	if err != nil {
-		c.Echo().Logger.Errorf("cannot export settings. Err: %w", err)
+		fmt.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

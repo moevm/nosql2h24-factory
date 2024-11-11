@@ -2,6 +2,7 @@ package authentication
 
 import (
 	"errors"
+	"fmt"
 	"net/http"
 	domain "vvnbd/internal/pkg/domain/authentication"
 	errs "vvnbd/internal/pkg/domain/errors"
@@ -13,7 +14,7 @@ func (h *Handler) Login(c echo.Context) error {
 	var body domain.LoginRequest
 	err := c.Bind(&body)
 	if err != nil {
-		c.Echo().Logger.Errorf("bad login data. Err: %w", err)
+		fmt.Println(err)
 		return c.String(http.StatusBadRequest, "bad login data")
 	}
 
@@ -26,7 +27,7 @@ func (h *Handler) Login(c echo.Context) error {
 		if errors.As(err, &badPassErr) {
 			return c.String(http.StatusUnauthorized, "wrong password")
 		}
-		c.Echo().Logger.Errorf("cannot login. Err: %w", err)
+		fmt.Println(err)
 		return c.String(http.StatusInternalServerError, "cannot login")
 	}
 

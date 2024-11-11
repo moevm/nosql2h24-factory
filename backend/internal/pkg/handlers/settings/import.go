@@ -1,6 +1,7 @@
 package settings
 
 import (
+	"fmt"
 	"net/http"
 	domain "vvnbd/internal/pkg/domain/staff"
 	"vvnbd/internal/pkg/middleware"
@@ -13,7 +14,7 @@ func (h *Handler) Import(c echo.Context) error {
 
 	settings, err := h.service.GetSettings(c.Request().Context(), username)
 	if err != nil {
-		c.Echo().Logger.Errorf("cannot import settings. Err: %w", err)
+		fmt.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

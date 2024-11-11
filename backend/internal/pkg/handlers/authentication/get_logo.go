@@ -1,6 +1,7 @@
 package authentication
 
 import (
+	"fmt"
 	"net/http"
 	domain "vvnbd/internal/pkg/domain/logo"
 
@@ -10,7 +11,7 @@ import (
 func (h *Handler) GetLogo(c echo.Context) error {
 	logoString, err := h.logoDao.GetLogo(c.Request().Context())
 	if err != nil {
-		c.Echo().Logger.Errorf("cannot get logo data. Err: %w", err)
+		fmt.Println(err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
