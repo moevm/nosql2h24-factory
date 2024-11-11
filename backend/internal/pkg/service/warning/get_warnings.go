@@ -9,6 +9,7 @@ import (
 )
 
 func (s *Service) GetWarnings(ctx context.Context, request domain.GetWarningsRequest) (domain.GetWarningsResponse, error) {
+
 	filter := domain.GetWarningsFilter{
 		ExcessPercentGreatetThan: sql.NullFloat64{
 			Float64: request.ExcessPercent,
