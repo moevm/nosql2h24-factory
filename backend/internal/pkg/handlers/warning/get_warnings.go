@@ -1,7 +1,6 @@
 package warning
 
 import (
-	"fmt"
 	"net/http"
 	domain "vvnbd/internal/pkg/domain/warning"
 
@@ -18,7 +17,7 @@ func (h *Handler) GetWarnings(c echo.Context) error {
 
 	result, err := h.service.GetWarnings(c.Request().Context(), body)
 	if err != nil {
-		fmt.Println(err)
+		c.Echo().Logger.Errorf("cannot get warnings. Err: %w", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

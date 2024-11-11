@@ -20,6 +20,7 @@ func (h *Handler) Export(c echo.Context) error {
 
 	err = h.service.SetUserSettings(c.Request().Context(), username, body.Settings)
 	if err != nil {
+		c.Echo().Logger.Errorf("cannot export settings. Err: %w", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 

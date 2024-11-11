@@ -13,6 +13,7 @@ func (h *Handler) Import(c echo.Context) error {
 
 	settings, err := h.service.GetSettings(c.Request().Context(), username)
 	if err != nil {
+		c.Echo().Logger.Errorf("cannot import settings. Err: %w", err)
 		return c.NoContent(http.StatusInternalServerError)
 	}
 
