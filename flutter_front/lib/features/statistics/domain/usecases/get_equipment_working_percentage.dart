@@ -1,4 +1,3 @@
-import 'dart:ffi';
 
 import 'package:clean_architecture/shared/domain/entities/percentage_entity.dart';
 import 'package:clean_architecture/shared/domain/repositories/influxdb_repository.dart';
