@@ -11,6 +11,8 @@ import (
 
 type service interface {
 	GetWarnings(ctx context.Context, request domain.GetWarningsRequest) (domain.GetWarningsResponse, error)
+	SetViewed(ctx context.Context, viewedWarnings []domain.WarningsViewed) error
+	SetDescription(ctx context.Context, username string, request domain.SetDescriptionsRequest) error
 }
 
 type Handler struct {
@@ -30,5 +32,17 @@ func (h *Handler) RouteHandler(e *echo.Echo) {
 		middleware.Authenticate(
 			authentication.NewRoleSet(authentication.ROLE_ADMIN),
 			h.GetWarnings,
+		))
+
+	group.POST("/warnings_viewed",
+		middleware.Authenticate(
+			authentication.NewRoleSet(authentication.ROLE_ADMIN),
+			h.WarningsViewed,
+		))
+
+	group.POST("/add_description",
+		middleware.Authenticate(
+			authentication.NewRoleSet(authentication.ROLE_ADMIN),
+			h.SetDescription,
 		))
 }

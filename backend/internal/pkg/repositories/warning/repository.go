@@ -7,6 +7,7 @@ import (
 )
 
 const (
+	idField            = "_id"
 	equipmentField     = "equipment"
 	excessPercentField = "excess_percent"
 	dateToField        = "date_to"

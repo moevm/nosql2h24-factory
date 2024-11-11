@@ -21,3 +21,10 @@ type GetWarningsResponse struct {
 	TotalWarningsCount int       `json:"total"`
 	PagesCount         int       `json:"pages"`
 }
+
+type SetDescriptionsRequest struct {
+	Id          string       `json:"id" bson:"_id"`
+	Description *Description `json:"description" bson:"description"`
+}
+
+type SetViewedRequest map[string]bool
