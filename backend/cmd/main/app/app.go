@@ -9,12 +9,15 @@ import (
 	authhandlers "vvnbd/internal/pkg/handlers/authentication"
 	equipmenthandler "vvnbd/internal/pkg/handlers/equipment"
 	settingshandler "vvnbd/internal/pkg/handlers/settings"
+	warninghandler "vvnbd/internal/pkg/handlers/warning"
 	authrepo "vvnbd/internal/pkg/repositories/authentication"
 	"vvnbd/internal/pkg/repositories/equipment"
 	"vvnbd/internal/pkg/repositories/logo"
 	staffrepo "vvnbd/internal/pkg/repositories/staff"
+	warningrepo "vvnbd/internal/pkg/repositories/warning"
 	authservice "vvnbd/internal/pkg/service/authentication"
 	settingsservice "vvnbd/internal/pkg/service/settings"
+	warningservice "vvnbd/internal/pkg/service/warning"
 
 	"github.com/labstack/echo"
 )
@@ -104,6 +107,18 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 
 	settingsHandler := settingshandler.NewHandler(ctx, settingsService)
 	settingsHandler.RouteHandler(e)
+
+	warningCollection, err := config.GetValue(config.WarningCollection)
+	if err != nil {
+		return fmt.Errorf("cannot get warning collection from config. Err: %w", err)
+	}
+
+	warningRepo := warningrepo.NewRepository(ctx, mongoClient, dbName, warningCollection)
+
+	warningService := warningservice.New(ctx, warningRepo)
+
+	warningHandler := warninghandler.NewHandler(ctx, warningService)
+	warningHandler.RouteHandler(e)
 
 	// influxClient, err := db.NewInfluxClient(ctx)
 	// if err != nil {
