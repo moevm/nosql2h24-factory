@@ -16,6 +16,14 @@ func (h *Handler) GetWarnings(c echo.Context) error {
 		return c.String(http.StatusBadRequest, "bad warnings data")
 	}
 
+	if body.PageLen == 0 {
+		body.PageLen = 10
+	}
+
+	if body.PageNum == 0 {
+		body.PageNum = 1
+	}
+
 	result, err := h.service.GetWarnings(c.Request().Context(), body)
 	if err != nil {
 		fmt.Println(err)

@@ -1,6 +1,7 @@
 package equipment
 
 type Equipment struct {
+	Id               string               `json:"_id" bson:"_id"`
 	Key              string               `json:"key" bson:"key"`
 	Name             string               `json:"name" bson:"name"`
 	Details          Details              `json:"details" bson:"details"`
