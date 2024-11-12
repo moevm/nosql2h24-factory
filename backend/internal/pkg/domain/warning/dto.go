@@ -3,15 +3,15 @@ package warning
 import "time"
 
 type GetWarningsRequest struct {
-	PageNum           int       `json:"page"`
-	PageLen           int       `json:"per_page"`
-	ExcessPercent     float64   `json:"excess_percent"`
-	Equipment         string    `json:"equipment_key"`
-	StartDate         time.Time `json:"start_date"`
-	EndDate           time.Time `json:"end_date"`
-	IsOrderASC        bool      `json:"order_ascending"`
-	IsWithDescription bool      `json:"with_description"`
-	Viewed            bool      `json:"viewed"`
+	PageNum           int       `json:"page" query:"page"`
+	PageLen           int       `json:"per_page" query:"per_page"`
+	ExcessPercent     float64   `json:"excess_percent" query:"excess_percent"`
+	Equipment         string    `json:"equipment_key" query:"equipment_key"`
+	StartDate         time.Time `json:"start_date" query:"start_date"`
+	EndDate           time.Time `json:"end_date" query:"end_date"`
+	IsOrderASC        bool      `json:"order_ascending" query:"order_ascending"`
+	IsWithDescription bool      `json:"with_description" query:"with_description"`
+	Viewed            bool      `json:"viewed" query:"viewed"`
 }
 
 type GetWarningsResponse struct {
