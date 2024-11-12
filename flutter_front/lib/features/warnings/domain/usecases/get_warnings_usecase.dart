@@ -2,6 +2,7 @@ import 'package:dartz/dartz.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/types/influx_formater.dart';
 import '../../../../shared/domain/repositories/equipment_repository.dart';
 import '../entities/warnings_data.dart';
 import '../repositories/warnings_repository.dart';
@@ -48,13 +49,12 @@ class GetWarningsUseCaseParams {
   });
 
   Map<String, dynamic> toJson() {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
     return {
       'page': page.toString(),
       'excess_percent': excessPercent.toString(),
       if (equipmentKey != null) 'equipment_key': equipmentKey,
-      if (startDate != null) 'start_date': formatter.format(startDate!),
-      if (endDate != null) 'end_date': formatter.format(endDate!),
+      if (startDate != null) 'start_date': formatDateTimeForInflux(startDate!, format: "Z"),
+      if (endDate != null) 'end_date': formatDateTimeForInflux(endDate!, format: "Z"),
       'order_ascending': orderAscending.toString(),
       'with_description': withDescription.toString(),
       if (viewed != null) 'viewed': viewed.toString(),
