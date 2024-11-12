@@ -236,7 +236,7 @@ Future<void> init() async {
       ));
 
   getIt.registerLazySingleton(() => ApiClient(
-        baseUrl: 'http://127.0.0.1:5000',
+        baseUrl: 'http://127.0.0.1:8080',
         hiveRepository: getIt(),
         logoutUseCase: getIt(),
       ));

@@ -26,7 +26,7 @@ class WarningsRepositoryImpl extends BaseRepository implements WarningsRepositor
   }
 
   @override
-  Future<Either<Failure, void>> warningsViewed(Map<String, String> body) =>
+  Future<Either<Failure, void>> warningsViewed(Map<String, dynamic> body) =>
       performOperation(() => remoteDataSource.warningsViewed(body), ServerFailure());
 
   @override

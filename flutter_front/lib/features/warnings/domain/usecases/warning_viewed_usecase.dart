@@ -20,9 +20,9 @@ class WarningViewedParams {
   bool value;
   WarningViewedParams(this.warnings, this.value);
 
-  Map<String, String> toMap() {
+  Map<String, dynamic> toMap() {
     return {
-      for (Warning warning in warnings) warning.id: value.toString()
+      for (Warning warning in warnings) warning.id: value
     };
   }
 }

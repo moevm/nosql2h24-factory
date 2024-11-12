@@ -8,7 +8,7 @@ abstract class WarningsRemoteDataSource extends RemoteDataSource {
   WarningsRemoteDataSource({required super.client}) : super(basePath: '/warnings');
 
   Future<WarningsResponseModel> getWarnings(Map<String, dynamic> params);
-  Future<void> warningsViewed(Map<String, String> body);
+  Future<void> warningsViewed(Map<String, dynamic> body);
   Future<void> addDescription(Map<String, dynamic> body);
 }
 
@@ -26,7 +26,7 @@ class WarningsRemoteDataSourceImpl extends WarningsRemoteDataSource {
   }
 
   @override
-  Future<void> warningsViewed(Map<String, String> body) async {
+  Future<void> warningsViewed(Map<String, dynamic> body) async {
     return await makeRequest(
       path: 'warnings_viewed',
       method: RequestMethod.POST,
