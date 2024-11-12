@@ -1,3 +1,4 @@
+import '../../../../core/types/influx_formater.dart';
 import '../../domain/entities/description.dart';
 
 class DescriptionModel {
@@ -22,7 +23,7 @@ class DescriptionModel {
   Map<String, String> toJson() {
     return {
       'text': text,
-      'updated': updated.toIso8601String(),
+      'updated': formatDateTimeForInflux(updated, format: "Z"),
       'author': author,
     };
   }

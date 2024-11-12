@@ -7,6 +7,6 @@ import '../usecases/get_warnings_usecase.dart';
 
 abstract class WarningsRepository {
   Future<Either<Failure, WarningsData>> getWarnings(Map<String, dynamic> params);
-  Future<Either<Failure, void>> warningsViewed(Map<String, String> body);
+  Future<Either<Failure, void>> warningsViewed(Map<String, dynamic> body);
   Future<Either<Failure, void>> addDescription(Map<String, dynamic> body);
 }
