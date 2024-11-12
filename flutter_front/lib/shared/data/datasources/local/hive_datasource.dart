@@ -2,9 +2,7 @@ import 'package:clean_architecture/features/home/domain/entities/fetch_topics.da
 import 'package:flutter/material.dart';
 import 'package:hive/hive.dart';
 
-import '../../../../features/charts/data/models/chart_config_model.dart';
 import '../../../../features/charts/domain/entities/chart_config.dart';
-import '../../../../features/charts/domain/usecases/save_charts_layout_use_case.dart';
 
 abstract class HiveLocalDataSource {
   Future<void> initializeUserBox(String username);
@@ -38,11 +36,11 @@ abstract class HiveLocalDataSource {
   Future<List<String>?> getMultipleChosenEquipment();
   Future<void> saveMultipleChosenEquipment(List<String>? equipment);
 
-  Future<ChartConfiguration?> getChartsConfiguration();
-  Future<void> saveChartsConfiguration(Map<String, dynamic> config);
-
-  Future<ChartsLayoutData?> getChartsLayout();
-  Future<void> saveChartsLayout(Map<String, dynamic> data);
+  // Future<ChartConfiguration?> getChartsConfiguration();
+  // Future<void> saveChartsConfiguration(Map<String, dynamic> config);
+  //
+  // Future<ChartsLayoutData?> getChartsLayout();
+  // Future<void> saveChartsLayout(Map<String, dynamic> data);
 }
 
 class HiveLocalDataSourceImpl implements HiveLocalDataSource {
@@ -261,36 +259,36 @@ class HiveLocalDataSourceImpl implements HiveLocalDataSource {
     await userBox.put("excessPercent", {"value": percent});
   }
 
-  // Equipment config
-
-  @override
-  Future<ChartConfiguration?> getChartsConfiguration() async {
-    final userBox = await getUserBox;
-    final config = userBox.get("chartsConfiguration") as Map?;
-    if(config == null) return null;
-    return ChartConfigurationModel.fromMap(config).toEntity();
-  }
-
-  @override
-  Future<void> saveChartsConfiguration(Map<String, dynamic> config) async {
-    final userBox = await getUserBox;
-    await userBox.put("chartsConfiguration", config);
-  }
-
-  // Charts Layout
-
-  @override
-  Future<ChartsLayoutData?> getChartsLayout() async {
-    final userBox = await getUserBox;
-    final layout = userBox.get("chartsLayout") as Map?;
-    if(layout == null) return null;
-    return ChartsLayoutData.fromMap(layout);
-  }
-
-  @override
-  Future<void> saveChartsLayout(Map<String, dynamic> data) async {
-    final userBox = await getUserBox;
-    await userBox.put("chartsLayout", data);
-  }
+  // // Equipment config
+  //
+  // @override
+  // Future<ChartConfiguration?> getChartsConfiguration() async {
+  //   final userBox = await getUserBox;
+  //   final config = userBox.get("chartsConfiguration") as Map?;
+  //   if(config == null) return null;
+  //   return ChartConfigurationModel.fromMap(config).toEntity();
+  // }
+  //
+  // @override
+  // Future<void> saveChartsConfiguration(Map<String, dynamic> config) async {
+  //   final userBox = await getUserBox;
+  //   await userBox.put("chartsConfiguration", config);
+  // }
+  //
+  // // Charts Layout
+  //
+  // @override
+  // Future<ChartsLayoutData?> getChartsLayout() async {
+  //   final userBox = await getUserBox;
+  //   final layout = userBox.get("chartsLayout") as Map?;
+  //   if(layout == null) return null;
+  //   return ChartsLayoutData.fromMap(layout);
+  // }
+  //
+  // @override
+  // Future<void> saveChartsLayout(Map<String, dynamic> data) async {
+  //   final userBox = await getUserBox;
+  //   await userBox.put("chartsLayout", data);
+  // }
 
 }
