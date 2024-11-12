@@ -28,3 +28,17 @@ type SetDescriptionsRequest struct {
 }
 
 type SetViewedRequest map[string]bool
+
+type GetStatisticsRequest struct {
+	StartDate     time.Time `json:"start_date"`
+	EndDate       time.Time `json:"end_date"`
+	Equipment     *string   `json:"equipment"`
+	GroupBy       string    `json:"group_by"`
+	Metric        string    `json:"metric"`
+	ExcessPercent float64   `json:"excess_percent"`
+}
+
+type GetStatisticsResponse struct {
+	Values []string  `bson:"x"`
+	Points []float64 `bson:"y"`
+}

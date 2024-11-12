@@ -7,6 +7,14 @@ services:
     ports:
       - 8086:8086
 
+  influx-seed:
+    env_file:
+      - .env
+    build:
+      dockerfile: influx_seed.Dockerfile
+    depends_on:
+      - influxdb2
+
   mongo:  
     env_file:
       - .env
