@@ -8,32 +8,45 @@ abstract class UsersLocalDataSource {
 }
 
 class UsersLocalDataSourceImpl implements UsersLocalDataSource {
-  late Box box;
+  Box? _box;
+
+  Future<Box> get box async {
+    if (_box == null || !_box!.isOpen) {
+      _box = await Hive.openBox('users');
+    }
+    return _box!;
+  }
 
   @override
   Future<void> initializeBox() async {
-    box = await Hive.openBox('users');
+    if (_box != null && _box!.isOpen) {
+      await _box!.close();
+    }
+    _box = await Hive.openBox('users');
   }
 
   @override
   Future<void> addUser(String username) async {
+    final openedBox = await box;
     List<String> users = await getUsers();
     if (!users.contains(username)) {
       users.add(username);
-      await box.put('users', users);
+      await openedBox.put('users', users);
     }
   }
 
   @override
   Future<void> removeUser(String username) async {
+    final openedBox = await box;
     List<String> users = await getUsers();
     users.remove(username);
-    await box.put('users', users);
+    await openedBox.put('users', users);
   }
 
   @override
   Future<List<String>> getUsers() async {
-    final u = box.get('users', defaultValue: <String>[]) as List<String>;
+    final openedBox = await box;
+    final u = openedBox.get('users', defaultValue: <String>[]) as List<String>;
     return u;
   }
 }
