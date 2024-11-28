@@ -14,6 +14,7 @@ type service interface {
 	SetViewed(ctx context.Context, viewedWarnings []domain.WarningsViewed) error
 	SetDescription(ctx context.Context, username string, request domain.SetDescriptionsRequest) error
 	GetStatistics(ctx context.Context, request domain.GetStatisticsRequest) (domain.GetStatisticsResponse, error)
+	GetEquipmentStatistics(ctx context.Context, request domain.GetEquipmentStatisticsRequest) (domain.GetEquipmentStatisticsResponse, error)
 }
 
 type Handler struct {
@@ -47,9 +48,17 @@ func (h *Handler) RouteHandler(e *echo.Echo) {
 			h.SetDescription,
 		))
 
-	group.GET("/warning_statistics",
+	statisticsGroup := e.Group("/statistics")
+
+	statisticsGroup.GET("/warning_statistics",
 		middleware.Authenticate(
 			authentication.NewRoleSet(authentication.ROLE_ADMIN),
 			h.GetStatistics,
+		))
+
+	statisticsGroup.GET("/equipment_warning_statistics",
+		middleware.Authenticate(
+			authentication.NewRoleSet(authentication.ROLE_ADMIN),
+			h.GetEquipmentWarningStatistics,
 		))
 }

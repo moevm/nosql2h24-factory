@@ -42,3 +42,29 @@ type GetStatisticsResponse struct {
 	Values []string  `bson:"x"`
 	Points []float64 `bson:"y"`
 }
+
+type GetEquipmentStatisticsRequest struct {
+	StartDate     time.Time `json:"start_date"`
+	EndDate       time.Time `json:"end_date"`
+	Equipment     *string   `json:"equipment"`
+	ExcessPercent float64   `json:"excess_percent"`
+}
+
+type GetEquipmentStatisticsResponse struct {
+	TotalCount    int              `json:"total_count" bson:"total_count"`
+	ExcessPercent ExcessPercentAll `json:"excess_percent" bson:"excess_percent"`
+	Duration      DurationAll      `json:"duration" bson:"duration"`
+}
+
+type ExcessPercentAll struct {
+	Max float64 `json:"max" bson:"max"`
+	Min float64 `json:"min" bson:"min"`
+	Avg float64 `json:"avg" bson:"avg"`
+}
+
+type DurationAll struct {
+	Max   float64 `json:"max" bson:"max"`
+	Min   float64 `json:"min" bson:"min"`
+	Avg   float64 `json:"avg" bson:"avg"`
+	Total float64 `json:"total" bson:"total"`
+}

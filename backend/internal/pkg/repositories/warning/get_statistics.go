@@ -77,7 +77,7 @@ func applyStatisticsFilter(filter warning.GetStatisticsFilter) bson.A {
 	}
 
 	if filter.Equipment.Valid {
-		matchStageExpr["equpment"] = filter.Equipment.String
+		matchStageExpr["equipment"] = filter.Equipment.String
 	}
 
 	matchStage := bson.M{"$match": matchStageExpr}
