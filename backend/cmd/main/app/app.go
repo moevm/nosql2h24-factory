@@ -8,10 +8,12 @@ import (
 	"vvnbd/internal/pkg/db"
 	authhandlers "vvnbd/internal/pkg/handlers/authentication"
 	equipmenthandler "vvnbd/internal/pkg/handlers/equipment"
+	"vvnbd/internal/pkg/handlers/influx_parser"
 	settingshandler "vvnbd/internal/pkg/handlers/settings"
 	warninghandler "vvnbd/internal/pkg/handlers/warning"
 	authrepo "vvnbd/internal/pkg/repositories/authentication"
 	"vvnbd/internal/pkg/repositories/equipment"
+	influx_repo "vvnbd/internal/pkg/repositories/influx"
 	"vvnbd/internal/pkg/repositories/logo"
 	staffrepo "vvnbd/internal/pkg/repositories/staff"
 	warningrepo "vvnbd/internal/pkg/repositories/warning"
@@ -120,9 +122,32 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 	warningHandler := warninghandler.NewHandler(ctx, warningService)
 	warningHandler.RouteHandler(e)
 
-	// influxClient, err := db.NewInfluxClient(ctx)
-	// if err != nil {
-	// 	return fmt.Errorf("unable to create influx client Err: %w", err)
-	// }
+	influxClient, err := db.NewInfluxClient(ctx)
+	if err != nil {
+		return fmt.Errorf("unable to create influx client Err: %w", err)
+	}
+
+	influxOrg, err := config.GetValue(config.InfluxOrg)
+	if err != nil {
+		return fmt.Errorf("cannot get influx org from config. Err: %w", err)
+	}
+
+	influxBucket, err := config.GetValue(config.InfluxBucket)
+	if err != nil {
+		return fmt.Errorf("cannot get influx bucket from config. Err: %w", err)
+	}
+
+	influxRepo := influx_repo.NewRepository(
+		influxClient,
+		influxOrg,
+		influxBucket,
+	)
+
+	influxHandler := influx_parser.New(
+		equipmentRepo,
+		influxRepo,
+	)
+	influxHandler.RouteHandler(e)
+
 	return nil
 }

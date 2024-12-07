@@ -25,7 +25,9 @@ const (
 	WarningCollection   = "WARNING_COLLECTION"
 
 	// influx configs
-	InfluxToken = "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN"
+	InfluxToken  = "DOCKER_INFLUXDB_INIT_ADMIN_TOKEN"
+	InfluxOrg    = "DOCKER_INFLUXDB_INIT_ORG"
+	InfluxBucket = "DOCKER_INFLUXDB_INIT_BUCKET"
 
 	// auth configs
 	AccessTokenLifetime  = "ACCESS_TOKEN_LIFETIME"
