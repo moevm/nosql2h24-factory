@@ -15,6 +15,10 @@ type PointData struct {
 }
 
 type liveChartsRequest struct {
+	StartTime            string                         `json:"start_time"`
+	EndTime              string                         `json:"end_time"`
+	Interval             string                         `json:"interval"`
+	AggFunc              string                         `json:"aggregate_function"`
 	EquipmentsParameters map[string]map[string][]string `json:"equipments_parameters"`
 }
 
@@ -52,12 +56,16 @@ func (h *Handler) LiveCharts(c echo.Context) error {
 
 					points, err := h.influxRepo.AnyQuery(
 						c.Request().Context(),
-						`|> range(start: -5m)
+						`|> range(start: %s, stop: %s)
                         |> filter(fn: (r) => r.topic == "%s")
                         |> filter(fn: (r) => r._field == "value")
-                        |> aggregateWindow(every: 1s, fn: mean, createEmpty: false)
+                        |> aggregateWindow(every: %s, fn: %s, createEmpty: false)
                         `,
+						request.StartTime,
+						request.EndTime,
 						topic,
+						request.Interval,
+						request.AggFunc,
 					)
 					if err != nil {
 						return c.String(http.StatusInternalServerError, fmt.Sprintf("err while do query %s", err))
