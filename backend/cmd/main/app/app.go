@@ -10,6 +10,7 @@ import (
 	equipmenthandler "vvnbd/internal/pkg/handlers/equipment"
 	"vvnbd/internal/pkg/handlers/influx_parser"
 	settingshandler "vvnbd/internal/pkg/handlers/settings"
+	"vvnbd/internal/pkg/handlers/snapshot"
 	warninghandler "vvnbd/internal/pkg/handlers/warning"
 	authrepo "vvnbd/internal/pkg/repositories/authentication"
 	"vvnbd/internal/pkg/repositories/equipment"
@@ -148,6 +149,9 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 		influxRepo,
 	)
 	influxHandler.RouteHandler(e)
+
+	snapshotHandler := snapshot.New(equipmentRepo, influxRepo)
+	snapshotHandler.RouteHandler(e)
 
 	return nil
 }
