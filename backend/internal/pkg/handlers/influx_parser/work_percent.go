@@ -100,7 +100,7 @@ func (h *Handler) WorkPercent(c echo.Context) error {
 		}
 
 		if request.GroupBy == "day" {
-			startTime, err := time.Parse("2006-01-02", request.StartTime)
+			startTime, err := time.Parse("2006-01-02T15:04:05+07:00", request.StartTime)
 			if err != nil {
 				return c.String(http.StatusBadRequest, "cannot parse time")
 			}
@@ -151,5 +151,5 @@ func (h *Handler) WorkPercent(c echo.Context) error {
 		}
 	}
 
-	return c.JSON(http.StatusOK, result)
+	return c.JSON(http.StatusOK, finalResult)
 }
