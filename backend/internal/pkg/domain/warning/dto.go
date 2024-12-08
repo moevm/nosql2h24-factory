@@ -1,7 +1,5 @@
 package warning
 
-import "time"
-
 type GetWarningsRequest struct {
 	PageNum           int     `json:"page" query:"page"`
 	PageLen           int     `json:"per_page" query:"per_page"`
@@ -30,12 +28,12 @@ type SetDescriptionsRequest struct {
 type SetViewedRequest map[string]bool
 
 type GetStatisticsRequest struct {
-	StartDate     time.Time `json:"start_date"`
-	EndDate       time.Time `json:"end_date"`
-	Equipment     *string   `json:"equipment"`
-	GroupBy       string    `json:"group_by"`
-	Metric        string    `json:"metric"`
-	ExcessPercent float64   `json:"excess_percent"`
+	StartDate     string  `json:"start_date" query:"start_date"`
+	EndDate       string  `json:"end_date" query:"end_date"`
+	Equipment     *string `json:"equipment" query:"equipment"`
+	GroupBy       string  `json:"group_by" query:"group_by"`
+	Metric        string  `json:"metric" query:"metric"`
+	ExcessPercent float64 `json:"excess_percent" query:"excess_percent"`
 }
 
 type GetStatisticsResponse struct {
@@ -44,10 +42,10 @@ type GetStatisticsResponse struct {
 }
 
 type GetEquipmentStatisticsRequest struct {
-	StartDate     time.Time `json:"start_date"`
-	EndDate       time.Time `json:"end_date"`
-	Equipment     *string   `json:"equipment"`
-	ExcessPercent float64   `json:"excess_percent"`
+	StartDate     string  `json:"start_date" query:"start_date"`
+	EndDate       string  `json:"end_date" query:"end_date"`
+	Equipment     *string `json:"equipment" query:"equipment"`
+	ExcessPercent float64 `json:"excess_percent" query:"excess_percent"`
 }
 
 type GetEquipmentStatisticsResponse struct {
