@@ -85,15 +85,15 @@ func (h *Handler) WorkPercent(c echo.Context) error {
 	// Prepare final result with only averages
 	finalResult := make([]float64, 0)
 
-	startTime, err := time.Parse("2006-01-02T15:04:05+07:00", request.StartTime)
+	startTime, err := time.Parse("2006-01-02T15:04:05Z07:00", request.StartTime)
 	if err != nil {
-		return c.String(http.StatusBadRequest, "cannot parse time")
+		return c.String(http.StatusBadRequest, "cannot parse start time")
 	}
 
 	if request.GroupBy == "day" {
-		endTime, err := time.Parse("2006-01-02T15:04:05+07:00", request.EndTime)
+		endTime, err := time.Parse("2006-01-02T15:04:05Z07:00", request.EndTime)
 		if err != nil {
-			return c.String(http.StatusBadRequest, "cannot parse time")
+			return c.String(http.StatusBadRequest, "cannot parse end time")
 		}
 
 		hours := endTime.Sub(startTime).Hours()
@@ -113,7 +113,7 @@ func (h *Handler) WorkPercent(c echo.Context) error {
 		for date, val := range result.Daily {
 			time, err := time.Parse("2006-01-02", date)
 			if err != nil {
-				return c.String(http.StatusBadRequest, "cannot parse time")
+				return c.String(http.StatusBadRequest, "cannot parse day time")
 			}
 
 			day := int(math.Ceil(time.Sub(startTime).Hours() / 24))
