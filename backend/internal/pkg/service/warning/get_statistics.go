@@ -20,9 +20,9 @@ func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatistic
 		ExcessPercent: request.ExcessPercent,
 	}
 
-	if request.Equipment != nil {
+	if request.Equipment != "" {
 		filter.Equipment = sql.NullString{
-			String: *request.Equipment,
+			String: request.Equipment,
 			Valid:  true,
 		}
 	}

@@ -30,7 +30,7 @@ type SetViewedRequest map[string]bool
 type GetStatisticsRequest struct {
 	StartDate     string  `json:"start_date" query:"start_date"`
 	EndDate       string  `json:"end_date" query:"end_date"`
-	Equipment     *string `json:"equipment" query:"equipment"`
+	Equipment     string  `json:"equipment" query:"equipment"`
 	GroupBy       string  `json:"group_by" query:"group_by"`
 	Metric        string  `json:"metric" query:"metric"`
 	ExcessPercent float64 `json:"excess_percent" query:"excess_percent"`
