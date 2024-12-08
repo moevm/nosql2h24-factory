@@ -3,6 +3,7 @@ import 'package:dartz/dartz.dart';
 import 'package:intl/intl.dart';
 
 import '../../../../core/error/failure.dart';
+import '../../../../core/types/influx_formater.dart';
 import '../../domain/repositories/statistics_repository.dart';
 import '../data_source/statistics_datasource.dart';
 import '../models/statistics_model.dart';
@@ -22,11 +23,10 @@ class StatisticsRepositoryImpl implements StatisticsRepository {
     required String metric,
     required double excessPercent,
   }) async {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
     try {
       final params = {
-        'start_date': formatter.format(startDate),
-        'end_date': formatter.format(endDate),
+        'start_date': formatDateTimeForInflux(startDate, format: "local"),
+        'end_date': formatDateTimeForInflux(endDate, format: "local"),
         'equipment': equipment,
         'group_by': groupBy,
         'metric': metric,
