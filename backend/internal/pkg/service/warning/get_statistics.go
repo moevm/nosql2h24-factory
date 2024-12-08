@@ -7,7 +7,7 @@ import (
 	domain "vvnbd/internal/pkg/domain/warning"
 )
 
-func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatisticsRequest) (domain.GetStatisticsResponse, error) {
+func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatisticsRequest) ([]domain.GetStatisticsResponse, error) {
 	filter := domain.GetStatisticsFilter{
 		StartDate:     request.StartDate,
 		EndDate:       request.EndDate,
@@ -25,13 +25,15 @@ func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatistic
 
 	stats, err := s.dao.GetStatistics(ctx, filter)
 	if err != nil {
-		return domain.GetStatisticsResponse{}, fmt.Errorf("unable to get statistics info. Err: %w", err)
+		return nil, fmt.Errorf("unable to get statistics info. Err: %w", err)
 	}
 
-	var resp domain.GetStatisticsResponse
+	resp := []domain.GetStatisticsResponse{}
 	for _, stat := range stats {
-		resp.Points = append(resp.Points, stat.Value)
-		resp.Values = append(resp.Values, stat.StatNumber)
+		resp = append(resp, domain.GetStatisticsResponse{
+			Values: stat.StatNumber,
+			Points: stat.Value,
+		})
 	}
 
 	return resp, nil

@@ -39,8 +39,8 @@ type GetStatisticsRequest struct {
 }
 
 type GetStatisticsResponse struct {
-	Values []string  `bson:"x"`
-	Points []float64 `bson:"y"`
+	Values string  `json:"x"`
+	Points float64 `json:"y"`
 }
 
 type GetEquipmentStatisticsRequest struct {

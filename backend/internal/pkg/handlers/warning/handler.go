@@ -13,7 +13,7 @@ type service interface {
 	GetWarnings(ctx context.Context, request domain.GetWarningsRequest) (domain.GetWarningsResponse, error)
 	SetViewed(ctx context.Context, viewedWarnings []domain.WarningsViewed) error
 	SetDescription(ctx context.Context, username string, request domain.SetDescriptionsRequest) error
-	GetStatistics(ctx context.Context, request domain.GetStatisticsRequest) (domain.GetStatisticsResponse, error)
+	GetStatistics(ctx context.Context, request domain.GetStatisticsRequest) ([]domain.GetStatisticsResponse, error)
 	GetEquipmentStatistics(ctx context.Context, request domain.GetEquipmentStatisticsRequest) (domain.GetEquipmentStatisticsResponse, error)
 }
 
