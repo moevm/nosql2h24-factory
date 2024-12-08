@@ -5,10 +5,14 @@ import (
 	"database/sql"
 	"fmt"
 	"slices"
+	"time"
 	domain "vvnbd/internal/pkg/domain/warning"
 )
 
 func (s *Service) GetWarnings(ctx context.Context, request domain.GetWarningsRequest) (domain.GetWarningsResponse, error) {
+
+	start, _ := time.Parse("2006-01-02T15:04:05Z07:00", request.StartDate)
+	end, _ := time.Parse("2006-01-02T15:04:05Z07:00", request.EndDate)
 
 	filter := domain.GetWarningsFilter{
 		ExcessPercentGreatetThan: sql.NullFloat64{
@@ -20,12 +24,12 @@ func (s *Service) GetWarnings(ctx context.Context, request domain.GetWarningsReq
 			Valid:  request.Equipment != "",
 		},
 		LaterThan: sql.NullTime{
-			Time:  request.StartDate,
-			Valid: !request.StartDate.IsZero(),
+			Time:  start,
+			Valid: !start.IsZero(),
 		},
 		EalrierThan: sql.NullTime{
-			Time:  request.EndDate,
-			Valid: !request.EndDate.IsZero(),
+			Time:  end,
+			Valid: !end.IsZero(),
 		},
 		IsWithDescription: sql.NullBool{
 			Bool:  request.IsWithDescription,
