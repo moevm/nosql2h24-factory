@@ -29,13 +29,11 @@ class StatisticsDatasourceImpl extends StatisticsDatasource {
 
   @override
   Future<Map<String, dynamic>> getEquipmentWarningsStatistics(Map<String, dynamic> params) async {
-    print(params);
     final res = await makeRequest(
       path: 'equipment_warning_statistics',
       method: RequestMethod.GET,
       params: params,
     );
-    print(res);
     return res;
   }
 }
