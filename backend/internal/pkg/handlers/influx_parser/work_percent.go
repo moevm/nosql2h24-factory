@@ -48,6 +48,10 @@ func (h *Handler) WorkPercent(c echo.Context) error {
 		Hourly map[string]AverageData
 	}{}
 
+	result.Daily = map[string]AverageData{}
+	result.Weekly = map[string]AverageData{}
+	result.Hourly = map[string]AverageData{}
+
 	for _, record := range records {
 		timestamp := record.Time()
 		value := record.Value().(float64)
