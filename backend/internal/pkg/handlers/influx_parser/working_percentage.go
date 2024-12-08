@@ -37,24 +37,32 @@ func (h *Handler) WorkingPercentage(c echo.Context) error {
 		return c.String(http.StatusInternalServerError, fmt.Sprintf("err while do query %s", err))
 	}
 
-	result := make(map[string]map[string]float64)
+	type Avg struct {
+		Sum   float64
+		Count int
+	}
+
+	result := make(map[string]Avg)
 
 	for _, record := range records {
 		equipment := record.ValueByKey("equipment").(string)
+		if request.Equipment != "" && request.Equipment != equipment {
+			continue
+		}
+
 		field := record.Field()
 		value := record.Value().(float64)
-
-		if _, ok := result[equipment]; !ok {
-			result[equipment] = make(map[string]float64)
-		}
-		result[equipment][field] = math.Round(value*100) / 100 // Round to 2 decimal places
+		avg := result[field]
+		avg.Count += 1
+		avg.Sum += value
+		result[field] = avg
 	}
 
-	if request.Equipment != "" {
-		return c.JSON(http.StatusOK, map[string]map[string]float64{
-			request.Equipment: result[request.Equipment],
-		})
+	resp := make(map[string]float64)
+
+	for field, val := range result {
+		resp[field] = math.Round(val.Sum/float64(val.Count)*100) / 100
 	}
 
-	return c.JSON(http.StatusOK, result)
+	return c.JSON(http.StatusOK, resp)
 }

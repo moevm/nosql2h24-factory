@@ -42,112 +42,100 @@ func (h *Handler) WorkPercent(c echo.Context) error {
 		Count int
 	}
 
-	result := make(map[string]struct {
+	result := struct {
 		Daily  map[string]AverageData
 		Weekly map[string]AverageData
 		Hourly map[string]AverageData
-	})
+	}{}
 
 	for _, record := range records {
 		timestamp := record.Time()
 		value := record.Value().(float64)
 		equipment := record.ValueByKey("equipment").(string)
-
-		if _, ok := result[equipment]; !ok {
-			result[equipment] = struct {
-				Daily  map[string]AverageData
-				Weekly map[string]AverageData
-				Hourly map[string]AverageData
-			}{
-				Daily:  make(map[string]AverageData),
-				Weekly: make(map[string]AverageData),
-				Hourly: make(map[string]AverageData),
-			}
-		}
-
-		// Daily average
-		dateKey := timestamp.Format("2006-01-02")
-		daily := result[equipment].Daily[dateKey]
-		daily.Sum += value
-		daily.Count++
-		result[equipment].Daily[dateKey] = daily
-
-		// Weekly average
-		weekKey := strconv.Itoa(int(timestamp.Weekday()))
-		weekly := result[equipment].Weekly[weekKey]
-		weekly.Sum += value
-		weekly.Count++
-		result[equipment].Weekly[weekKey] = weekly
-
-		// Hourly average
-		hourKey := strconv.Itoa(timestamp.Hour())
-		hourly := result[equipment].Hourly[hourKey]
-		hourly.Sum += value
-		hourly.Count++
-		result[equipment].Hourly[hourKey] = hourly
-	}
-
-	// Prepare final result with only averages
-	finalResult := make(map[string][]float64)
-
-	if request.Equipment != "" {
-		finalResult[request.Equipment] = make([]float64, 0)
-	}
-
-	for equipment, data := range result {
 		if request.Equipment != "" && request.Equipment != equipment {
 			continue
 		}
 
-		if request.GroupBy == "day" {
-			startTime, err := time.Parse("2006-01-02T15:04:05+07:00", request.StartTime)
+		// Daily average
+		dateKey := timestamp.Format("2006-01-02")
+		daily := result.Daily[dateKey]
+		daily.Sum += value
+		daily.Count++
+		result.Daily[dateKey] = daily
+
+		// Weekly average
+		weekKey := strconv.Itoa(int(timestamp.Weekday()))
+		weekly := result.Weekly[weekKey]
+		weekly.Sum += value
+		weekly.Count++
+		result.Weekly[weekKey] = weekly
+
+		// Hourly average
+		hourKey := strconv.Itoa(timestamp.Hour())
+		hourly := result.Hourly[hourKey]
+		hourly.Sum += value
+		hourly.Count++
+		result.Hourly[hourKey] = hourly
+	}
+
+	// Prepare final result with only averages
+	finalResult := make([]float64, 0)
+
+	startTime, err := time.Parse("2006-01-02T15:04:05+07:00", request.StartTime)
+	if err != nil {
+		return c.String(http.StatusBadRequest, "cannot parse time")
+	}
+
+	if request.GroupBy == "day" {
+		endTime, err := time.Parse("2006-01-02T15:04:05+07:00", request.EndTime)
+		if err != nil {
+			return c.String(http.StatusBadRequest, "cannot parse time")
+		}
+
+		hours := endTime.Sub(startTime).Hours()
+		finalResult = make([]float64, int(math.Ceil(hours/24))+1)
+	}
+
+	if request.GroupBy == "weekday" {
+		finalResult = make([]float64, 7)
+	}
+
+	if request.GroupBy == "hour" {
+		finalResult = make([]float64, 24)
+	}
+
+	if request.GroupBy == "day" {
+
+		for date, val := range result.Daily {
+			time, err := time.Parse("2006-01-02", date)
 			if err != nil {
 				return c.String(http.StatusBadRequest, "cannot parse time")
 			}
 
-			endTime, err := time.Parse("2006-01-02", request.EndTime)
+			day := int(math.Ceil(time.Sub(startTime).Hours() / 24))
+			finalResult[day] = val.Sum / float64(val.Count)
+		}
+	}
+
+	if request.GroupBy == "weekday" {
+		for week, val := range result.Weekly {
+			idx, err := strconv.Atoi(week)
 			if err != nil {
-				return c.String(http.StatusBadRequest, "cannot parse time")
+				return c.String(http.StatusBadRequest, "cannot parse week")
 			}
 
-			hours := endTime.Sub(startTime).Hours()
-			finalResult[equipment] = make([]float64, int(math.Ceil(hours/24))+1)
-
-			for date, val := range data.Daily {
-				time, err := time.Parse("2006-01-02", date)
-				if err != nil {
-					return c.String(http.StatusBadRequest, "cannot parse time")
-				}
-
-				day := int(math.Ceil(time.Sub(startTime).Hours() / 24))
-				finalResult[equipment][day] = val.Sum / float64(val.Count)
-			}
+			finalResult[idx] = val.Sum / float64(val.Count)
 		}
+	}
 
-		if request.GroupBy == "weekday" {
-			finalResult[equipment] = make([]float64, 7)
-
-			for week, val := range data.Weekly {
-				idx, err := strconv.Atoi(week)
-				if err != nil {
-					return c.String(http.StatusBadRequest, "cannot parse week")
-				}
-
-				finalResult[equipment][idx] = val.Sum / float64(val.Count)
+	if request.GroupBy == "hour" {
+		for week, val := range result.Hourly {
+			idx, err := strconv.Atoi(week)
+			if err != nil {
+				return c.String(http.StatusBadRequest, "cannot parse hour")
 			}
-		}
 
-		if request.GroupBy == "hour" {
-			finalResult[equipment] = make([]float64, 24)
-
-			for week, val := range data.Hourly {
-				idx, err := strconv.Atoi(week)
-				if err != nil {
-					return c.String(http.StatusBadRequest, "cannot parse hour")
-				}
-
-				finalResult[equipment][idx] = val.Sum / float64(val.Count)
-			}
+			finalResult[idx] = val.Sum / float64(val.Count)
 		}
 	}
 
