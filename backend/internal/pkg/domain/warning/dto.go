@@ -37,8 +37,8 @@ type GetStatisticsRequest struct {
 }
 
 type GetStatisticsResponse struct {
-	Values string  `json:"x"`
-	Points float64 `json:"y"`
+	Values string  `json:"x,omitempty"`
+	Points float64 `json:"y,omitempty"`
 }
 
 type GetEquipmentStatisticsRequest struct {
