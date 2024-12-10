@@ -107,8 +107,8 @@ class StatisticsControlPanel extends StatelessWidget {
 
   void _showDateRangePicker(BuildContext context) async {
     final initialDateRange = DateTimeRange(
-      start: state.startDate ?? DateTime.now().subtract(const Duration(days: 7)),
-      end: state.endDate ?? DateTime.now(),
+      start: state.startDate ?? DateTime(2024, 11, 6),
+      end: state.endDate ?? DateTime(2024, 11, 8),
     );
 
     final pickedDateRange = await showDateRangePicker(

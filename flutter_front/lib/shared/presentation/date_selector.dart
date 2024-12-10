@@ -29,8 +29,8 @@ class DateTimeRangeSelector extends StatelessWidget {
               firstDate: DateTime(2000),
               lastDate: DateTime.now(),
               initialDateRange: DateTimeRange(
-                start: startDateTime ?? DateTime.now().subtract(const Duration(days: 7)),
-                end: endDateTime ?? DateTime.now(),
+                start: startDateTime ?? DateTime(2024, 11, 6),
+                end: endDateTime ?? DateTime(2024, 11, 8),
               ),
             );
 
