@@ -61,6 +61,11 @@ func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatistic
 
 	for i := 0; i < respLen; i++ {
 		idx := i
+
+		if request.GroupBy == "weekday" {
+			idx = (idx + 1) % 7
+		}
+
 		strIdx := ""
 
 		if request.GroupBy == "day" {
