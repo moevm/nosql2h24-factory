@@ -3,6 +3,7 @@ package warning
 import (
 	"context"
 	"fmt"
+	"time"
 	"vvnbd/internal/pkg/domain/warning"
 
 	"go.mongodb.org/mongo-driver/bson"
@@ -50,8 +51,11 @@ func (r *Repository) GetEquipmentStatistics(ctx context.Context, filter warning.
 
 func applyEquipmentStatisticsFilter(filter warning.GetEquipmentStatisticsRequest) bson.A {
 
+	start, _ := time.Parse("2006-01-02T15:04:05Z07:00", filter.StartDate)
+	end, _ := time.Parse("2006-01-02T15:04:05Z07:00", filter.EndDate)
+
 	matchStageExpr := bson.M{
-		"date":           bson.M{"$gte": filter.StartDate, "$lte": filter.EndDate},
+		"date":           bson.M{"$gte": start, "$lte": end},
 		"excess_percent": bson.M{"$gte": filter.ExcessPercent},
 	}
 
