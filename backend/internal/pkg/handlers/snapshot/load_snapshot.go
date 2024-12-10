@@ -2,6 +2,7 @@ package snapshot
 
 import (
 	"fmt"
+	"net/http"
 
 	"github.com/labstack/echo"
 )
@@ -11,5 +12,5 @@ func (h *Handler) LoadSnapshot(c echo.Context) error {
 	c.Bind(&body)
 
 	fmt.Println(body)
-	return nil
+	return c.JSON(http.StatusOK, struct{}{})
 }

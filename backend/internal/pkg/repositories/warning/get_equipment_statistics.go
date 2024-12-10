@@ -25,8 +25,6 @@ func (r *Repository) GetEquipmentStatistics(ctx context.Context, filter warning.
 		return warning.GetEquipmentStatisticsResponse{}, fmt.Errorf("unable to parse data from from mongo. Err: %w", err)
 	}
 
-	fmt.Println(result)
-
 	if len(result) == 0 {
 		return warning.GetEquipmentStatisticsResponse{}, nil
 	}
