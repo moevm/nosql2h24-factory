@@ -35,15 +35,15 @@ func New(
 }
 
 func (h *Handler) RouteHandler(e *echo.Echo) {
-	group := e.Group("/snapshot")
+	group := e.Group("/settings")
 
-	group.GET("/",
+	group.GET("/get_snapshot",
 		middleware.Authenticate(
 			authentication.NewRoleSet(authentication.ROLE_ADMIN),
 			h.GetSnapshot,
 		))
 
-	group.POST("/load",
+	group.POST("/load_snapshot",
 		middleware.Authenticate(
 			authentication.NewRoleSet(authentication.ROLE_ADMIN),
 			h.LoadSnapshot,
