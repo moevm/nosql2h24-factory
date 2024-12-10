@@ -9,15 +9,12 @@ import (
 )
 
 func (h *Handler) LoadSnapshot(c echo.Context) error {
-	var body string
-	c.Bind(&body)
-	fmt.Println(body)
-
 	var snapshot Snapshot
-	err := json.Unmarshal([]byte(body), &snapshot)
+	err := json.NewDecoder(c.Request().Body).Decode(&snapshot)
 	if err != nil {
 		fmt.Println("bad message")
 	}
+	fmt.Println(snapshot)
 
 	return c.JSON(http.StatusOK, struct{}{})
 }
