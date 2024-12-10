@@ -44,7 +44,7 @@ type GetStatisticsResponse struct {
 type GetEquipmentStatisticsRequest struct {
 	StartDate     string  `json:"start_date" query:"start_date"`
 	EndDate       string  `json:"end_date" query:"end_date"`
-	Equipment     *string `json:"equipment" query:"equipment"`
+	Equipment     string  `json:"equipment" query:"equipment"`
 	ExcessPercent float64 `json:"excess_percent" query:"excess_percent"`
 }
 
