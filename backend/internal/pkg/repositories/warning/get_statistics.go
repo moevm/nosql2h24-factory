@@ -41,7 +41,7 @@ var (
 			"$avg": bson.M{
 				"$divide": bson.A{
 					bson.M{
-						"$subtruct": bson.A{"$date_to", "$date_from"},
+						"$subtract": bson.A{"$date_to", "$date_from"},
 					},
 					1000,
 				},

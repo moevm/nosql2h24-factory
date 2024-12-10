@@ -69,15 +69,17 @@ func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatistic
 			strIdx = strconv.Itoa(idx)
 		}
 
-		val, ok := statsMap[strIdx]
-		if !ok {
-			resp = append(resp, domain.GetStatisticsResponse{})
-			continue
-		}
-
 		display_val := strIdx
 		if request.GroupBy == "weekday" {
 			display_val = weekdays[idx]
+		}
+
+		val, ok := statsMap[strIdx]
+		if !ok {
+			resp = append(resp, domain.GetStatisticsResponse{
+				Values: display_val,
+			})
+			continue
 		}
 
 		resp = append(resp, domain.GetStatisticsResponse{
