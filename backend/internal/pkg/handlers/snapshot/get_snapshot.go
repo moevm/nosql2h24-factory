@@ -1,12 +1,17 @@
 package snapshot
 
 import (
+	"encoding/json"
 	"fmt"
 	"net/http"
-	"strings"
 
 	"github.com/labstack/echo"
 )
+
+type Snapshot struct {
+	Mongo  string `json:"mongo"`
+	Influx string `json:"influx"`
+}
 
 func (h *Handler) GetSnapshot(c echo.Context) error {
 	str, err := h.influxRepo.GetAllRecords(c.Request().Context())
@@ -17,7 +22,13 @@ func (h *Handler) GetSnapshot(c echo.Context) error {
 	// h.influxRepo.Truncate(c.Request().Context())
 
 	// h.influxRepo.Insert(c.Request().Context(), &str)
-	reader := strings.NewReader(str)
 
-	return c.Stream(http.StatusOK, "", reader)
+	snapshot := Snapshot{
+		Mongo:  "",
+		Influx: str,
+	}
+
+	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
+	c.Response().WriteHeader(http.StatusOK)
+	return json.NewEncoder(c.Response()).Encode(snapshot)
 }
