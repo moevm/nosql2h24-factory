@@ -31,7 +31,7 @@ class SettingsView extends StatelessWidget {
         if (state.message != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 2000),
               content: Text(state.message!.message),
               backgroundColor: state.message!.isError ? Colors.red : Colors.green,
             ),
