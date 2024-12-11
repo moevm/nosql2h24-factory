@@ -28,7 +28,7 @@ services:
     build:
       dockerfile: mongo_seed.Dockerfile
     depends_on:
-      - mongo
+      - db
 
   backend:
     env_file:
@@ -38,7 +38,7 @@ services:
     ports:
       - "127.0.0.1:8080:8080"
     depends_on:
-      - mongo
+      - db
       - influxdb2
 
   frontend:
