@@ -44,14 +44,14 @@ class ChartConfiguration {
     this.showWarnings = false,
     this.showAnomalies = false,
     this.selectedAggregations = const {AggregationType.mean},
-    this.timeRange = TimeRange.hour,
+    this.timeRange = TimeRange.custom,
     DateTime? customStartDate,
     DateTime? customEndDate,
     this.pointsDistance = const Duration(minutes: 1),
     this.realTime = false,
   }) :
-        customStartDate = customStartDate ?? DateTime.now().subtract(const Duration(days: 7)),
-        customEndDate = customEndDate ?? DateTime.now();
+        customStartDate = customStartDate ?? DateTime(2024, 11, 6),
+        customEndDate = customEndDate ?? DateTime(2024, 11, 8);
 
   ChartConfiguration copyWith({
     bool? showWarnings,

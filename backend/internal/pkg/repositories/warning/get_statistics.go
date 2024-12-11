@@ -41,7 +41,7 @@ var (
 			"$avg": bson.M{
 				"$divide": bson.A{
 					bson.M{
-						"$subtruct": bson.A{"$date_to", "$date_from"},
+						"$subtract": bson.A{"$date_to", "$date_from"},
 					},
 					1000,
 				},
@@ -77,7 +77,7 @@ func applyStatisticsFilter(filter warning.GetStatisticsFilter) bson.A {
 	}
 
 	if filter.Equipment.Valid {
-		matchStageExpr["equpment"] = filter.Equipment.String
+		matchStageExpr["equipment"] = filter.Equipment.String
 	}
 
 	matchStage := bson.M{"$match": matchStageExpr}
