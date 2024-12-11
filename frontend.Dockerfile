@@ -1,4 +1,4 @@
-FROM debian:latest AS build-env
+FROM debian:12.5 AS build-env
 
 RUN apt-get update && \
     apt-get install -y curl git wget unzip libgconf-2-4 gdb libstdc++6 libglu1-mesa fonts-droid-fallback lib32stdc++6 python3 sed && \
@@ -18,10 +18,7 @@ WORKDIR /app
 COPY ./flutter_front .
 RUN flutter build web
 
-FROM nginx:stable-alpine
+FROM nginx:1.24.0-alpine
 COPY --from=build-env /app/build/web /usr/share/nginx/html
-
 COPY nginx.conf /etc/nginx/conf.d/default.conf
-
-EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
