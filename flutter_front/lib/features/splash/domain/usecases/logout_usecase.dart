@@ -20,7 +20,7 @@ class LogoutUseCase implements UseCase<void, NoParams> {
           (f) => const Right(null),
           (username) async {
             if(username != null){
-              await Hive.deleteBoxFromDisk("user_$username");
+              await Hive.box("user_$username").clear();
               await splashRepository.deleteUser(username);
             }
             return const Right(null);

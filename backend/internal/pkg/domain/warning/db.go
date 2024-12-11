@@ -33,3 +33,14 @@ type Statistics struct {
 	StatNumber string  `bson:"_id"`
 	Value      float64 `bson:"value"`
 }
+
+type EquipmentStatistics struct {
+	TotalCount    int     `bson:"total_count"`
+	MaxExcess     float64 `bson:"max_excess"`
+	MinExcess     float64 `bson:"min_excess"`
+	AvgExcess     float64 `bson:"avg_excess"`
+	MaxDuration   float64 `bson:"max_duration"`
+	MinDuration   float64 `bson:"min_duration"`
+	AvgDuration   float64 `bson:"avg_duration"`
+	TotalDuration float64 `bson:"total_duration"`
+}

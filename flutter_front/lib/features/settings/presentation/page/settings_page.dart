@@ -6,6 +6,7 @@ import '../../../../core/theme/theme_service.dart';
 import '../../../../locator_service.dart';
 import '../../../../shared/presentation/responsive_scaffold.dart';
 import '../bloc/settings_bloc.dart';
+import '../widgets/import_export_data.dart';
 import '../widgets/settings_item.dart';
 
 class SettingsPage extends StatelessWidget {
@@ -30,7 +31,7 @@ class SettingsView extends StatelessWidget {
         if (state.message != null) {
           ScaffoldMessenger.of(context).showSnackBar(
             SnackBar(
-              duration: const Duration(milliseconds: 500),
+              duration: const Duration(milliseconds: 2000),
               content: Text(state.message!.message),
               backgroundColor: state.message!.isError ? Colors.red : Colors.green,
             ),
@@ -81,6 +82,7 @@ class SettingsView extends StatelessWidget {
             ),
           ],
         ),
+        const FileHandlerWidget()
       ],
     );
   }

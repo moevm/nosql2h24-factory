@@ -122,7 +122,7 @@ Future<void> init() async {
       ));
 
   getIt.registerFactory(
-      () => SettingsBloc(exportSettings: getIt(), importSettings: getIt()));
+      () => SettingsBloc(exportSettings: getIt(), importSettings: getIt(), remoteDataSource: getIt()));
 
   getIt.registerFactory(
           () => ChartsBloc(

@@ -36,10 +36,9 @@ class GetEquipmentWarningsStatisticsParams extends Equatable {
   });
 
   Map<String, dynamic> toMap() {
-    final DateFormat formatter = DateFormat('yyyy-MM-dd hh:mm');
     return {
-      'start_date': formatDateTimeForInflux(startDate),
-      'end_date': formatDateTimeForInflux(endDate),
+      'start_date': formatDateTimeForInflux(startDate, format: "local"),
+      'end_date': formatDateTimeForInflux(endDate, format: "local"),
       'equipment': equipment,
     };
   }

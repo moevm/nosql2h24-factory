@@ -26,11 +26,11 @@ class DateTimeRangeSelector extends StatelessWidget {
           onPressed: () async {
             DateTimeRange? dateRange = await showDateRangePicker(
               context: context,
-              firstDate: DateTime(2000),
-              lastDate: DateTime.now(),
+              firstDate: DateTime(2024, 11, 5),
+              lastDate: DateTime(2024, 11, 9),
               initialDateRange: DateTimeRange(
-                start: startDateTime ?? DateTime.now().subtract(const Duration(days: 7)),
-                end: endDateTime ?? DateTime.now(),
+                start: startDateTime ?? DateTime(2024, 11, 6),
+                end: endDateTime ?? DateTime(2024, 11, 8),
               ),
             );
 
