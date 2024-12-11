@@ -24,7 +24,24 @@ func (r *Repository) GetAllRecords(ctx context.Context) (string, error) {
 	builder := strings.Builder{}
 	for results.Next() {
 		record := results.Record()
-		builder.WriteString(record.String() + "\n")
+		builder.WriteString(record.Measurement())
+		for key, val := range record.Values() {
+			if key[0] == '_' || key == "result" || key == "table" {
+				continue
+			}
+			builder.WriteString(",")
+			builder.WriteString(key)
+			builder.WriteString("=")
+			builder.WriteString(strings.ReplaceAll(fmt.Sprint(val), " ", "\\ "))
+		}
+		builder.WriteString(" ")
+		builder.WriteString(record.Field())
+		builder.WriteString("=")
+		builder.WriteString(fmt.Sprint(record.Value()))
+		builder.WriteString(" ")
+		builder.WriteString(fmt.Sprint(record.Time().UnixNano()))
+
+		builder.WriteString("\n")
 	}
 
 	if results.Err() != nil {

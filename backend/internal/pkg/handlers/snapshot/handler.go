@@ -3,14 +3,15 @@ package snapshot
 import (
 	"context"
 	"vvnbd/internal/pkg/domain/authentication"
-	"vvnbd/internal/pkg/domain/equipment"
 	"vvnbd/internal/pkg/middleware"
 
 	"github.com/labstack/echo"
 )
 
-type equipmentRepo interface {
-	GetEquipment(ctx context.Context, key string) (equipment.Equipment, error)
+type mongoRepo interface {
+	GetAllData(ctx context.Context) (string, error)
+	Truncate(ctx context.Context) error
+	Insert(ctx context.Context, dataStr string) error
 }
 
 type influxRepo interface {
@@ -20,17 +21,17 @@ type influxRepo interface {
 }
 
 type Handler struct {
-	equipmentRepo equipmentRepo
-	influxRepo    influxRepo
+	mongoRepo  mongoRepo
+	influxRepo influxRepo
 }
 
 func New(
-	equipmentRepo equipmentRepo,
+	mongoRepo mongoRepo,
 	influxRepo influxRepo,
 ) *Handler {
 	return &Handler{
-		equipmentRepo: equipmentRepo,
-		influxRepo:    influxRepo,
+		mongoRepo:  mongoRepo,
+		influxRepo: influxRepo,
 	}
 }
 

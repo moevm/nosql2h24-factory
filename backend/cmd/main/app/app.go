@@ -16,6 +16,7 @@ import (
 	"vvnbd/internal/pkg/repositories/equipment"
 	influx_repo "vvnbd/internal/pkg/repositories/influx"
 	"vvnbd/internal/pkg/repositories/logo"
+	"vvnbd/internal/pkg/repositories/mongo"
 	staffrepo "vvnbd/internal/pkg/repositories/staff"
 	warningrepo "vvnbd/internal/pkg/repositories/warning"
 	authservice "vvnbd/internal/pkg/service/authentication"
@@ -150,7 +151,9 @@ func RunApp(ctx context.Context, e *echo.Echo) error {
 	)
 	influxHandler.RouteHandler(e)
 
-	snapshotHandler := snapshot.New(equipmentRepo, influxRepo)
+	mongoRepo := mongo.NewRepository(ctx, mongoClient, dbName)
+
+	snapshotHandler := snapshot.New(mongoRepo, influxRepo)
 	snapshotHandler.RouteHandler(e)
 
 	return nil

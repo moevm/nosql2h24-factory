@@ -14,18 +14,19 @@ type Snapshot struct {
 }
 
 func (h *Handler) GetSnapshot(c echo.Context) error {
-	str, err := h.influxRepo.GetAllRecords(c.Request().Context())
+	influxStr, err := h.influxRepo.GetAllRecords(c.Request().Context())
 	if err != nil {
-		return c.String(http.StatusInternalServerError, fmt.Errorf("unable to get all influx rexcords. Err: %w", err).Error())
+		return c.String(http.StatusInternalServerError, fmt.Errorf("unable to get all influx records. Err: %w", err).Error())
 	}
 
-	// h.influxRepo.Truncate(c.Request().Context())
-
-	// h.influxRepo.Insert(c.Request().Context(), &str)
+	mongoStr, err := h.mongoRepo.GetAllData(c.Request().Context())
+	if err != nil {
+		return c.String(http.StatusInternalServerError, fmt.Errorf("unable to get all mongo records. Err: %w", err).Error())
+	}
 
 	snapshot := Snapshot{
-		Mongo:  "",
-		Influx: str,
+		Mongo:  mongoStr,
+		Influx: influxStr,
 	}
 
 	c.Response().Header().Set(echo.HeaderContentType, echo.MIMEApplicationJSONCharsetUTF8)
