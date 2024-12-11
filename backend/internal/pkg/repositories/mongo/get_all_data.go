@@ -31,7 +31,7 @@ func (r *Repository) GetAllData(ctx context.Context) (string, error) {
 		result[collection] = collRes
 	}
 
-	resStr, err := bson.Marshal(result)
+	resStr, err := bson.MarshalExtJSON(result, true, false)
 	if err != nil {
 		return "", fmt.Errorf("unable to marshal bson result. Err: %w", err)
 	}

@@ -9,7 +9,7 @@ import (
 
 func (r *Repository) Insert(ctx context.Context, dataStr string) error {
 	data := bson.M{}
-	err := bson.Unmarshal([]byte(dataStr), &data)
+	err := bson.UnmarshalExtJSON([]byte(dataStr), true, &data)
 	if err != nil {
 		return fmt.Errorf("unable to parse data to mongo insert. Err: %w", err)
 	}
