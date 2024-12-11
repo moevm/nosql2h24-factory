@@ -11,4 +11,5 @@ CMD sleep 5 && \
     ./influx write -b ${DOCKER_INFLUXDB_INIT_BUCKET} -f ./Irms.csv --host http://influxdb2:8086 --org ${DOCKER_INFLUXDB_INIT_ORG} --token ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN} && \
     ./influx write -b ${DOCKER_INFLUXDB_INIT_BUCKET} -f ./totalP.csv --host http://influxdb2:8086 --org ${DOCKER_INFLUXDB_INIT_ORG} --token ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN} && \
     ./influx write -b ${DOCKER_INFLUXDB_INIT_BUCKET} -f ./Urms.csv --host http://influxdb2:8086 --org ${DOCKER_INFLUXDB_INIT_ORG} --token ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN} && \
-    ./influx write -b ${DOCKER_INFLUXDB_INIT_BUCKET} -f ./work.csv --host http://influxdb2:8086 --org ${DOCKER_INFLUXDB_INIT_ORG} --token ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN}
+    ./influx write -b ${DOCKER_INFLUXDB_INIT_BUCKET} -f ./work.csv --host http://influxdb2:8086 --org ${DOCKER_INFLUXDB_INIT_ORG} --token ${DOCKER_INFLUXDB_INIT_ADMIN_TOKEN} && \
+    tail -f /dev/null
