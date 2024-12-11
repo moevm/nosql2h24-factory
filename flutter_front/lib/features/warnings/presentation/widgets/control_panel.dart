@@ -243,8 +243,8 @@ class WarningsControlPanel extends StatelessWidget {
   Future<void> _showDateRangePicker(BuildContext context) async {
     final result = await showDateRangePicker(
       context: context,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now(),
+      firstDate: DateTime(2024, 11, 5),
+      lastDate: DateTime(2024, 11, 9),
       initialDateRange: (state.startDate != null && state.endDate != null)
           ? DateTimeRange(start: state.startDate!, end: state.endDate!)
           : null,

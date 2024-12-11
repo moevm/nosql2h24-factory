@@ -46,7 +46,7 @@ class UsersLocalDataSourceImpl implements UsersLocalDataSource {
   @override
   Future<List<String>> getUsers() async {
     final openedBox = await box;
-    final u = openedBox.get('users', defaultValue: <String>[]) as List<String>;
-    return u;
+    final List<dynamic>? u = openedBox.get('users') as List?;
+    return u?.map((e) => e.toString()).toList() ?? [];
   }
 }

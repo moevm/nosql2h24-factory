@@ -113,8 +113,8 @@ class StatisticsControlPanel extends StatelessWidget {
 
     final pickedDateRange = await showDateRangePicker(
       context: context,
-      firstDate: DateTime(2020),
-      lastDate: DateTime.now(),
+      firstDate: DateTime(2024, 11, 5),
+      lastDate: DateTime(2024, 11, 9),
       initialDateRange: initialDateRange,
     );
 
