@@ -28,32 +28,57 @@ Future<void> showDescriptionDialog(BuildContext context, WarningsBloc bloc, Warn
           child: StatefulBuilder(
             builder: (context, setState) {
               return AlertDialog(
-                title: const Text('Добавить описание'),
-                content: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  children: [
-                    TextField(
-                      controller: controller,
-                      decoration: const InputDecoration(
-                        hintText: 'Введите описание...',
-                        border: OutlineInputBorder(),
+                title: const Text('Информация о предупреждении'),
+                content: SingleChildScrollView(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text('ID: ${widget.warning.id}'),
+                      const SizedBox(height: 8),
+                      Text('Дата: ${DateFormat('dd.MM.yyyy').format(widget.warning.date)}'),
+                      const SizedBox(height: 8),
+                      Text('Период: ${DateFormat('dd.MM.yyyy').format(widget.warning.dateFrom)} - ${DateFormat('dd.MM.yyyy').format(widget.warning.dateTo)}'),
+                      const SizedBox(height: 8),
+                      Text('Оборудование: ${widget.warning.equipment}'),
+                      const SizedBox(height: 8),
+                      Text('Превышение: ${widget.warning.excessPercent.toStringAsFixed(2)}%'),
+                      const SizedBox(height: 8),
+                      Text('Текст: ${widget.warning.text}'),
+                      const SizedBox(height: 8),
+                      Text('Тип: ${widget.warning.type}'),
+                      const SizedBox(height: 8),
+                      Text('Значение: ${widget.warning.value}'),
+                      const SizedBox(height: 8),
+                      Text('Статус: ${widget.warning.viewed ? "Просмотрено" : "Не просмотрено"}'),
+                      const SizedBox(height: 16),
+                      const Text('Описание:', style: TextStyle(fontWeight: FontWeight.bold)),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: controller,
+                        decoration: const InputDecoration(
+                          hintText: 'Введите описание...',
+                          border: OutlineInputBorder(),
+                        ),
+                        maxLines: 3,
+                        onChanged: (value) {
+                          setState(() {
+                            hasChanges = value != oldString;
+                          });
+                        },
                       ),
-                      maxLines: 3,
-                      onChanged: (value) {
-                        setState(() {
-                          hasChanges = value != oldString;
-                        });
-                      },
-                    ),
-                    if(widget.warning.description != null)
-                      Column(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Text("Добавлено ${widget.warning.description!.author}"),
-                          Text(DateFormat('MM/dd HH:mm').format(widget.warning.description!.updated)),
-                        ],
-                      )
-                  ],
+                      if(widget.warning.description != null)
+                        Column(
+                          mainAxisSize: MainAxisSize.min,
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SizedBox(height: 8),
+                            Text("Добавлено: ${widget.warning.description!.author}"),
+                            Text("Дата: ${DateFormat('dd.MM.yyyy HH:mm').format(widget.warning.description!.updated)}"),
+                          ],
+                        )
+                    ],
+                  ),
                 ),
                 actions: [
                   TextButton(
