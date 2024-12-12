@@ -39,12 +39,12 @@ class FileHandlerWidget extends StatelessWidget {
               context.read<SettingsBloc>().add(ImportFilesEvent());
             },
             icon: const Icon(Icons.download),
-            label: const Text('Импорт данных'),
+            label: const Text('Экспорт данных'),
           ),
           ElevatedButton.icon(
             onPressed: () => _handleFileExport(context),
             icon: const Icon(Icons.upload),
-            label: const Text('Экспорт данных'),
+            label: const Text('Импорт данных'),
           ),
           const Text("Необходимо 2 txt файла", style: TextStyle(fontWeight: FontWeight.bold)),
         ],
