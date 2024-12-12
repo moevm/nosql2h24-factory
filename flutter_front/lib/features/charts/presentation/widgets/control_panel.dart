@@ -65,20 +65,20 @@ class ChartsControlPanel extends StatelessWidget {
                     isEnabled: selectedEquipmentKeys?.isNotEmpty ?? false,
                   ),
                 ),
-                AnomalyWarningsControl(
-                  showWarnings: configuration.showWarnings,
-                  showAnomalies: configuration.showAnomalies,
-                  onWarningsChanged: (value) {
-                    onConfigurationChanged(
-                      configuration.copyWith(showWarnings: value),
-                    );
-                  },
-                  onAnomaliesChanged: (value) {
-                    onConfigurationChanged(
-                      configuration.copyWith(showAnomalies: value),
-                    );
-                  },
-                ),
+                // AnomalyWarningsControl(
+                //   showWarnings: configuration.showWarnings,
+                //   showAnomalies: configuration.showAnomalies,
+                //   onWarningsChanged: (value) {
+                //     onConfigurationChanged(
+                //       configuration.copyWith(showWarnings: value),
+                //     );
+                //   },
+                //   onAnomaliesChanged: (value) {
+                //     onConfigurationChanged(
+                //       configuration.copyWith(showAnomalies: value),
+                //     );
+                //   },
+                // ),
                 AggregationControl(
                   selectedAggregations: configuration.selectedAggregations,
                   onAggregationChanged: (value) {

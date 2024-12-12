@@ -41,13 +41,14 @@ services:
       - db
       - influxdb2
 
-  frontend:
-    build:
-      dockerfile: frontend.Dockerfile
-    ports:
-      - "127.0.0.1:81:80"
-    depends_on:
-      - backend
+  # frontend:
+  #   build:
+  #     dockerfile: frontend.Dockerfile
+  #   ports:
+  #     - "127.0.0.1:81:80"
+  #   depends_on:
+  #     - backend
+  
 volumes:
   mongo_data:
   influx_data:

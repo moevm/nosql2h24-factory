@@ -56,15 +56,46 @@ class ChartsBloc extends Bloc<ChartsEvent, ChartsState> {
 
     selectedEquipmentResult.fold(
           (failure) => emit(ChartsError("Не удалось загрузить выбранное оборудование")),
-          (selectedEquipment) {
+          (selectedEquipment) async {
         equipmentListResult.fold(
               (failure) =>
               emit(ChartsError("Не удалось загрузить список оборудования")),
-              (equipmentList) => emit(ChartsLoaded(
-            equipmentList: equipmentList,
-            selectedEquipmentKeys: selectedEquipment,
-            selectedParameterKeys: null, configuration: ChartConfiguration(),
-          )),
+              (equipmentList) async {
+            // Если нет сохраненного оборудования, устанавливаем значения по умолчанию
+            if (selectedEquipment == null) {
+              final defaultEquipment = ["gib2"];
+              final saveResult = await saveSelectedEquipment(defaultEquipment);
+
+              saveResult.fold(
+                    (failure) => emit(ChartsError("Не удалось сохранить оборудование по умолчанию")),
+                    (_) async {
+                  final configuration = ChartConfiguration();
+                  final loadedState = ChartsLoaded(
+                    equipmentList: equipmentList,
+                    selectedEquipmentKeys: defaultEquipment,
+                    selectedParameterKeys: ["current", "total_power"],
+                    configuration: configuration,
+                  );
+                  emit(loadedState);
+
+                  // Запрашиваем данные после инициализации
+                  add(FetchChartsDataEvent());
+                },
+              );
+            } else {
+              final configuration = ChartConfiguration();
+              final loadedState = ChartsLoaded(
+                equipmentList: equipmentList,
+                selectedEquipmentKeys: selectedEquipment,
+                selectedParameterKeys: ["current", "total_power"],
+                configuration: configuration,
+              );
+              emit(loadedState);
+
+              // Запрашиваем данные после инициализации
+              add(FetchChartsDataEvent());
+            }
+          },
         );
       },
     );
