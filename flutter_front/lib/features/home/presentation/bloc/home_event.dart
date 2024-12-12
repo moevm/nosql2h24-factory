@@ -17,3 +17,8 @@ class ToggleEquipmentCollapse extends HomeEvent {
 
   ToggleEquipmentCollapse(this.equipmentKey);
 }
+
+class FilterEquipment extends HomeEvent {
+  final Map<String, dynamic> filterParams;
+  FilterEquipment(this.filterParams);
+}

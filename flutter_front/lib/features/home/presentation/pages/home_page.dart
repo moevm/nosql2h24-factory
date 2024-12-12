@@ -9,6 +9,7 @@ import '../../../../shared/presentation/org_logo.dart';
 import '../../../../shared/presentation/responsive_scaffold.dart';
 import '../bloc/home_bloc.dart';
 import '../widgets/equipment_cards.dart';
+import '../widgets/equipment_filter.dart';
 import '../widgets/equipment_summary.dart';
 
 class HomePage extends StatelessWidget {
@@ -62,6 +63,8 @@ class HomePageContent extends StatelessWidget {
                       workingEquipmentCount: state.workNum,
                       maxTemperature: state.maxTemperature,
                     ),
+                    const SizedBox(height: 20),
+                    const EquipmentFilter(), // Add this line
                     const SizedBox(height: 20),
                     EquipmentWidgetList(
                       equipmentList: state.equipment,

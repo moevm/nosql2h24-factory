@@ -41,11 +41,12 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     on<UpdateChartData>(_onUpdateChartData);
     on<UpdateChartSettings>(_onUpdateChartSettings);
     on<ToggleEquipmentCollapse>(_onToggleEquipmentCollapse);
+    on<FilterEquipment>(_onFilterEquipment);
   }
 
   void _onLoadHomePage(LoadHomePage event, Emitter<HomeState> emit) async {
     emit(HomeLoading());
-    final result = await getHomePageDataUseCase(NoParams());
+    final result = await getHomePageDataUseCase(HomePageParams());
 
     await result.fold(
             (failure) async {
@@ -162,6 +163,39 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
     }
   }
 
+  void _onFilterEquipment(FilterEquipment event, Emitter<HomeState> emit) async {
+    if (state is HomeLoaded) {
+      emit(HomeLoading());
+      final result = await getHomePageDataUseCase(
+        HomePageParams(filterParams: event.filterParams),
+      );
+
+      await result.fold(
+              (failure) async {
+            emit(HomeError('Failed to load filtered data: ${failure.toString()}'));
+          },
+              (data) async {
+            final settings = await initializeChartDataUseCase(data.equipment);
+
+            await settings.fold(
+                    (failure) async {
+                  emit(HomeError('Failed to initialize chart data: ${failure.toString()}'));
+                },
+                    (chartData) async {
+                  emit(_createHomeLoadedState(
+                    data.equipment,
+                    chartData,
+                    data.logo,
+                    collapsedEquipment: _lastCollapsedList,
+                    filterParams: event.filterParams,
+                  ));
+                }
+            );
+          }
+      );
+    }
+  }
+
   Map<String, EquipmentStatus> _getStatuses(
       EquipmentListEntity equipment,
       MiniChartDataModel chartData
@@ -210,6 +244,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       InitChartData chartData,
       String? logo, {
         List<String>? collapsedEquipment,
+        Map<String, dynamic>? filterParams,
       }) {
     final statuses = _getStatuses(equipment, chartData.data);
     final maxTemperature = _getMaxTemperature(chartData);
@@ -224,6 +259,7 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
       workNum,
       maxTemperature,
       collapsedEquipment: collapsedEquipment ?? _lastCollapsedList,
+      currentFilters: filterParams ?? {},
     );
   }
 

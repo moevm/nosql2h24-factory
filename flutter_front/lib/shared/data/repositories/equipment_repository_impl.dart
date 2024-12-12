@@ -15,9 +15,10 @@ class EquipmentRepositoryImpl implements EquipmentRepository {
   EquipmentRepositoryImpl({required this.remoteDatasource});
 
   @override
-  Future<Either<Failure, EquipmentListEntity>> getEquipment() async {
+  Future<Either<Failure, EquipmentListEntity>> getEquipment(
+      {Map<String, dynamic>? params}) async {
     try {
-      final equipment = await remoteDatasource.getEquipment();
+      final equipment = await remoteDatasource.getEquipment(params: params);
       return Right(equipment.toEntity());
     } catch (e) {
       return Left(ServerFailure());
