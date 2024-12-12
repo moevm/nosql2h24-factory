@@ -246,13 +246,16 @@ class HomeBloc extends Bloc<HomeEvent, HomeState> {
         List<String>? collapsedEquipment,
         Map<String, dynamic>? filterParams,
       }) {
-    final statuses = _getStatuses(equipment, chartData.data);
+    // Применяем фильтры к equipment
+    final filteredEquipment = equipment.filterEquipment(filterParams ?? {});
+
+    final statuses = _getStatuses(filteredEquipment, chartData.data);
     final maxTemperature = _getMaxTemperature(chartData);
     final workNum = statuses.values.where((status) => status == EquipmentStatus.work).length;
 
     return HomeLoaded(
       logo,
-      equipment,
+      filteredEquipment,
       chartData.data,
       chartData.settings,
       statuses,
