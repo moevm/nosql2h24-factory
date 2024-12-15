@@ -75,8 +75,8 @@ class StatisticsBloc extends Bloc<StatisticsEvent, StatisticsState> {
       final DateTimeRange dateTimeRange = dateTimeRangeResult.getOrElse(() {
         final now = DateTime.now();
         return DateTimeRange(
-          start: now.subtract(const Duration(days: 7)),
-          end: now,
+          start: DateTime(2024, 11, 6),
+          end: DateTime(2024, 11, 8),
         );
       });
 

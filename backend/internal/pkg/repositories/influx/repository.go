@@ -1,16 +1,23 @@
-package testinfluxrepo
+package influx_repo
 
 import (
 	influxdb2 "github.com/influxdata/influxdb-client-go/v2"
-	"golang.org/x/net/context"
 )
 
 type Repository struct {
-	client influxdb2.Client
+	orgName    string
+	bucketName string
+	client     influxdb2.Client
 }
 
-func NewRepository(ctx context.Context, client influxdb2.Client) *Repository {
+func NewRepository(
+	client influxdb2.Client,
+	orgName string,
+	bucketName string,
+) *Repository {
 	return &Repository{
-		client: client,
+		client:     client,
+		orgName:    orgName,
+		bucketName: bucketName,
 	}
 }

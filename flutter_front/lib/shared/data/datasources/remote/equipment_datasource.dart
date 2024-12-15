@@ -5,17 +5,18 @@ import '../remote_datasourse.dart';
 abstract class EquipmentRemoteDataSource extends RemoteDataSource {
   EquipmentRemoteDataSource({required super.client}) : super(basePath: '/equipment');
 
-  Future<EquipmentListModel> getEquipment();
+  Future<EquipmentListModel> getEquipment({Map<String, dynamic>? params});
 }
 
 class EquipmentRemoteDataSourceImpl extends EquipmentRemoteDataSource {
   EquipmentRemoteDataSourceImpl({required super.client});
 
   @override
-  Future<EquipmentListModel> getEquipment() async {
+  Future<EquipmentListModel> getEquipment({Map<String, dynamic>? params}) async {
     final response = await makeRequest(
       path: 'equipment_info',
       method: RequestMethod.GET,
+      params: params
     );
     return EquipmentListModel.fromJson(response);
   }

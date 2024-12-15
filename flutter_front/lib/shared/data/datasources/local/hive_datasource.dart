@@ -191,8 +191,8 @@ class HiveLocalDataSourceImpl implements HiveLocalDataSource {
     // Default period - last week
     final now = DateTime.now();
     return DateTimeRange(
-      start: now.subtract(const Duration(days: 7)),
-      end: now,
+      start: DateTime(2024, 11, 6),
+      end: DateTime(2024, 11, 8),
     );
   }
 

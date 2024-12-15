@@ -122,6 +122,63 @@ class _ChartsGridState extends State<ChartsGrid> {
     int equipmentIndex = 0;
     final baseColors = _getThemeColors(context);
 
+    DateTime? minTime;
+    DateTime? maxTime;
+
+    // Получаем размер виджета
+    final size = MediaQuery.of(context).size;
+    final chartWidth = _cardSizes.values.first.width - 40; // Примерная ширина графика
+
+    parameterData.forEach((_, subParams) {
+      subParams.forEach((_, dataPoints) {
+        if (dataPoints != null && dataPoints.isNotEmpty) {
+          final times = dataPoints.map((point) => point.time);
+          final currentMin = times.reduce((a, b) => a.isBefore(b) ? a : b);
+          final currentMax = times.reduce((a, b) => a.isAfter(b) ? a : b);
+
+          minTime = minTime == null || currentMin.isBefore(minTime!) ? currentMin : minTime;
+          maxTime = maxTime == null || currentMax.isAfter(maxTime!) ? currentMax : maxTime;
+        }
+      });
+    });
+
+    if (minTime == null || maxTime == null) {
+      return LineChartData(lineBarsData: []);
+    }
+
+    // Вычисляем оптимальный интервал меток в зависимости от ширины
+    double calculateInterval(double availableWidth) {
+      final totalSeconds = maxTime!.difference(minTime!).inSeconds.toDouble();
+      final pixelsPerLabel = 80.0; // Минимальное количество пикселей между метками
+      final maxLabels = (availableWidth / pixelsPerLabel).floor();
+      final rawInterval = totalSeconds / maxLabels;
+
+      // Округляем до ближайшего удобного интервала
+      if (rawInterval <= 60) return 60; // 1 минута
+      if (rawInterval <= 300) return 300; // 5 минут
+      if (rawInterval <= 600) return 600; // 10 минут
+      if (rawInterval <= 1800) return 1800; // 30 минут
+      if (rawInterval <= 3600) return 3600; // 1 час
+      if (rawInterval <= 7200) return 7200; // 2 часа
+      if (rawInterval <= 14400) return 14400; // 4 часа
+      return 21600; // 6 часов
+    }
+
+    final interval = calculateInterval(chartWidth);
+
+    // Форматирование времени в зависимости от интервала
+    String formatTime(DateTime time, double interval) {
+      if (interval <= 300) { // До 5 минут
+        return '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
+      } else if (interval <= 3600) { // До часа
+        return '${time.hour}:${time.minute.toString().padLeft(2, '0')}';
+      } else if (interval <= 86400) { // До суток
+        return '${time.hour}:00';
+      } else { // Больше суток
+        return '${time.day}/${time.month} ${time.hour}:00';
+      }
+    }
+
     parameterData.forEach((equipKey, subParams) {
       Color baseColor = baseColors[equipmentIndex % baseColors.length];
       int subParamIndex = 0;
@@ -134,22 +191,16 @@ class _ChartsGridState extends State<ChartsGrid> {
             final hslColor = HSLColor.fromColor(baseColor);
             double saturation = (hslColor.saturation - 0.3 * subParamIndex).clamp(0.3, 1.0);
             double lightness = (hslColor.lightness + 0.1 * subParamIndex).clamp(0.3, 0.7);
-
-            lineColor = hslColor
-                .withSaturation(saturation)
-                .withLightness(lightness)
-                .toColor();
+            lineColor = hslColor.withSaturation(saturation).withLightness(lightness).toColor();
           } else {
             lineColor = baseColor;
           }
 
           lines.add(
             LineChartBarData(
-              spots: dataPoints.asMap().entries.map((entry) {
-                return FlSpot(
-                  entry.key.toDouble(),
-                  entry.value.value,
-                );
+              spots: dataPoints.map((point) {
+                final double xValue = point.time.difference(minTime!).inSeconds.toDouble();
+                return FlSpot(xValue, point.value);
               }).toList(),
               color: lineColor,
               dotData: const FlDotData(show: false),
@@ -165,9 +216,35 @@ class _ChartsGridState extends State<ChartsGrid> {
 
     return LineChartData(
       gridData: const FlGridData(show: true),
-      titlesData: const FlTitlesData(
-        rightTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
-        topTitles: AxisTitles(sideTitles: SideTitles(showTitles: false)),
+      titlesData: FlTitlesData(
+        rightTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        topTitles: const AxisTitles(sideTitles: SideTitles(showTitles: false)),
+        bottomTitles: AxisTitles(
+          sideTitles: SideTitles(
+            showTitles: true,
+            reservedSize: 32,
+            getTitlesWidget: (value, meta) {
+              final DateTime time = minTime!.add(Duration(seconds: value.toInt()));
+
+              // Показываем метку только если она попадает на интервал
+              if (value % interval != 0) {
+                return const SizedBox.shrink();
+              }
+
+              return Transform.rotate(
+                angle: -0.5,
+                child: Padding(
+                  padding: const EdgeInsets.only(top: 8.0),
+                  child: Text(
+                    formatTime(time, interval),
+                    style: const TextStyle(fontSize: 10),
+                  ),
+                ),
+              );
+            },
+            interval: interval,
+          ),
+        ),
       ),
       borderData: FlBorderData(show: true),
       lineBarsData: lines,

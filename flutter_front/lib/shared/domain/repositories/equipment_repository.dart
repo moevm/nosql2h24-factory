@@ -6,5 +6,6 @@ import 'package:dartz/dartz.dart';
 import '../../data/models/equipment/equipment_list_model.dart';
 
 abstract class EquipmentRepository {
-  Future<Either<Failure, EquipmentListEntity>> getEquipment();
+  Future<Either<Failure, EquipmentListEntity>> getEquipment(
+      {Map<String, dynamic>? params});
 }

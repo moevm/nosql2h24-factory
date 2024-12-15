@@ -11,6 +11,7 @@ type dao interface {
 	SetViewed(ctx context.Context, viewedWarnings []warning.WarningsViewed) error
 	SetDescription(ctx context.Context, id string, description *warning.Description) error
 	GetStatistics(ctx context.Context, filter warning.GetStatisticsFilter) ([]warning.Statistics, error)
+	GetEquipmentStatistics(ctx context.Context, filter warning.GetEquipmentStatisticsRequest) (warning.GetEquipmentStatisticsResponse, error)
 }
 
 type Service struct {

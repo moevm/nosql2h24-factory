@@ -205,8 +205,8 @@ class TimeRangeSelector extends StatelessWidget {
     final DateTime? picked = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: DateTime(2000),
-      lastDate: DateTime.now().add(const Duration(days: 365)),
+      firstDate: DateTime(2024, 11, 5),
+      lastDate: DateTime(2024, 11, 9),
     );
 
     if (picked != null) {
