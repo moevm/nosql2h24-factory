@@ -9,7 +9,7 @@ import (
 func (s *Service) GetEquipmentStatistics(ctx context.Context, request domain.GetEquipmentStatisticsRequest) (domain.GetEquipmentStatisticsResponse, error) {
 	stats, err := s.dao.GetEquipmentStatistics(ctx, request)
 	if err != nil {
-		return domain.GetEquipmentStatisticsResponse{}, fmt.Errorf("unable to get statistics info. Err: %w", err)
+		return domain.GetEquipmentStatisticsResponse{}, fmt.Errorf("[warnings] unable to get statistics info. Err: %w", err)
 	}
 
 	return stats, nil
