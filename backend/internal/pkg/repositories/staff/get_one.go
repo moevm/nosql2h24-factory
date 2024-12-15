@@ -23,7 +23,7 @@ func (r *Repository) GetOne(ctx context.Context, username string) (domain.Person
 			return domain.PersonData{}, &errors.NotFoundError{}
 		}
 
-		return domain.PersonData{}, fmt.Errorf("unable to get data from mongo. Err: %w", err)
+		return domain.PersonData{}, fmt.Errorf("[staff] unable to get data from mongo. Err: %w", err)
 	}
 
 	return result, nil
