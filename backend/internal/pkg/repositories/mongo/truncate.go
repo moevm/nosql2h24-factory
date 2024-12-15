@@ -11,7 +11,7 @@ func (r *Repository) Truncate(ctx context.Context) error {
 	db := r.client.Database(r.databaseName)
 	collections, err := db.ListCollectionNames(ctx, bson.D{})
 	if err != nil {
-		return fmt.Errorf("unable to get collections from mongo. Err: %w", err)
+		return fmt.Errorf("[mongo] unable to get collections from mongo. Err: %w", err)
 	}
 
 	for _, collection := range collections {
