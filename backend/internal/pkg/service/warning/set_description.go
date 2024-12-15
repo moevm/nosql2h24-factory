@@ -15,7 +15,7 @@ func (s *Service) SetDescription(ctx context.Context, username string, request d
 
 	err := s.dao.SetDescription(ctx, request.Id, request.Description)
 	if err != nil {
-		return fmt.Errorf("unable to set warning description. Err: %w", err)
+		return fmt.Errorf("[warnings] unable to set warning description. Err: %w", err)
 	}
 
 	return nil
