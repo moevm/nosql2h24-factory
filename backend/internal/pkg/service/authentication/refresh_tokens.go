@@ -17,7 +17,7 @@ func (s *Service) RefreshTokens(ctx context.Context, refreshToken string) (domai
 			return s.secretKey, nil
 		})
 	if err != nil {
-		return domain.UserTokens{}, fmt.Errorf("cannot parse refresh token. Err: %w", err)
+		return domain.UserTokens{}, fmt.Errorf("[auth] cannot parse refresh token. Err: %w", err)
 	}
 
 	if !token.Valid {
