@@ -13,7 +13,7 @@ import (
 func (s *Service) Login(ctx context.Context, credentials domain.UserCredentials) (domain.UserTokens, error) {
 	accessInfo, err := s.usersDao.GetUserAccessInfo(ctx, credentials.Username)
 	if err != nil {
-		return domain.UserTokens{}, fmt.Errorf("unable to get user access info. Err: %w", err)
+		return domain.UserTokens{}, fmt.Errorf("[auth] unable to get user access info. Err: %w", err)
 	}
 
 	if accessInfo.Password != credentials.Password {
