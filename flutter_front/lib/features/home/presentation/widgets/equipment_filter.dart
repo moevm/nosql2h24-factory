@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/home_bloc.dart';
+import 'package:intl/intl.dart';
 
 class EquipmentFilter extends StatefulWidget {
   const EquipmentFilter({super.key});
@@ -12,10 +13,16 @@ class EquipmentFilter extends StatefulWidget {
 class _EquipmentFilterState extends State<EquipmentFilter> {
   late final TextEditingController _nameController;
   late final TextEditingController _locationController;
-  late final TextEditingController _statusController;
-  late final TextEditingController _yearController;
+  late final TextEditingController _yearRangeController;
   late final TextEditingController _groupController;
-  String? _yearError;
+  String? _selectedStatus;
+  DateTimeRange? _selectedDateRange;
+
+  final List<String> _statusOptions = [
+    'В работе',
+    'Не работает',
+    'В ремонте',
+  ];
 
   @override
   void initState() {
@@ -27,35 +34,87 @@ class _EquipmentFilterState extends State<EquipmentFilter> {
 
     _nameController = TextEditingController(text: currentFilters['name'] ?? '');
     _locationController = TextEditingController(text: currentFilters['location'] ?? '');
-    _statusController = TextEditingController(text: currentFilters['status'] ?? '');
-    _yearController = TextEditingController(text: currentFilters['year']?.toString() ?? '');
+    _yearRangeController = TextEditingController(text: currentFilters['year'] ?? '');
     _groupController = TextEditingController(text: currentFilters['group'] ?? '');
+    _selectedStatus = currentFilters['status'];
+
+    if (currentFilters['year'] != null) {
+      final yearRange = currentFilters['year'].toString().split('-');
+      if (yearRange.length == 2) {
+        _selectedDateRange = DateTimeRange(
+          start: DateTime(int.parse(yearRange[0])),
+          end: DateTime(int.parse(yearRange[1])),
+        );
+      }
+    }
   }
 
   @override
   void dispose() {
     _nameController.dispose();
     _locationController.dispose();
-    _statusController.dispose();
-    _yearController.dispose();
+    _yearRangeController.dispose();
     _groupController.dispose();
     super.dispose();
   }
 
-  bool _validateYear() {
-    if (_yearController.text.isEmpty) {
-      setState(() => _yearError = null);
-      return true;
-    }
+  Future<void> _selectYearRange() async {
+    final now = DateTime.now();
+    final initialYear = _selectedDateRange?.start.year ?? now.year;
 
-    final year = int.tryParse(_yearController.text);
-    if (year == null) {
-      setState(() => _yearError = 'Введите целое число');
-      return false;
-    }
+    final startYear = await showDialog<int>(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text('Выберите начальный год'),
+          content: SizedBox(
+            width: 300,
+            height: 300,
+            child: YearPicker(
+              firstDate: DateTime(1900),
+              lastDate: DateTime(now.year),
+              selectedDate: DateTime(initialYear),
+              onChanged: (DateTime dateTime) {
+                Navigator.pop(context, dateTime.year);
+              },
+            ),
+          ),
+        );
+      },
+    );
 
-    setState(() => _yearError = null);
-    return true;
+    if (startYear != null) {
+      final endYear = await showDialog<int>(
+        context: context,
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: const Text('Выберите конечный год'),
+            content: SizedBox(
+              width: 300,
+              height: 300,
+              child: YearPicker(
+                firstDate: DateTime(startYear),
+                lastDate: DateTime(now.year),
+                selectedDate: DateTime(startYear),
+                onChanged: (DateTime dateTime) {
+                  Navigator.pop(context, dateTime.year);
+                },
+              ),
+            ),
+          );
+        },
+      );
+
+      if (endYear != null) {
+        setState(() {
+          _selectedDateRange = DateTimeRange(
+            start: DateTime(startYear),
+            end: DateTime(endYear),
+          );
+          _yearRangeController.text = '$startYear-$endYear';
+        });
+      }
+    }
   }
 
   Map<String, dynamic> _getFilterParams() {
@@ -67,11 +126,11 @@ class _EquipmentFilterState extends State<EquipmentFilter> {
     if (_locationController.text.isNotEmpty) {
       params['location'] = _locationController.text;
     }
-    if (_statusController.text.isNotEmpty) {
-      params['status'] = _statusController.text;
+    if (_selectedStatus != null && _selectedStatus != 'Не выбрано') {
+      params['status'] = _selectedStatus;
     }
-    if (_yearController.text.isNotEmpty) {
-      params['year'] = _yearController.text;
+    if (_yearRangeController.text.isNotEmpty) {
+      params['year'] = _yearRangeController.text;
     }
     if (_groupController.text.isNotEmpty) {
       params['group'] = _groupController.text;
@@ -81,11 +140,9 @@ class _EquipmentFilterState extends State<EquipmentFilter> {
   }
 
   void _onSearch() {
-    if (_validateYear()) {
-      context.read<HomeBloc>().add(
-        FilterEquipment(_getFilterParams()),
-      );
-    }
+    context.read<HomeBloc>().add(
+      FilterEquipment(_getFilterParams()),
+    );
   }
 
   @override
@@ -125,27 +182,44 @@ class _EquipmentFilterState extends State<EquipmentFilter> {
                 ),
                 SizedBox(
                   width: 200,
-                  child: TextField(
-                    controller: _statusController,
+                  child: DropdownButtonFormField<String>(
+                    value: _selectedStatus ?? 'Не выбрано',
                     decoration: const InputDecoration(
                       labelText: 'Глобальный статус',
                       border: UnderlineInputBorder(),
                       isDense: true,
                     ),
+                    items: [
+                      const DropdownMenuItem<String>(
+                        value: 'Не выбрано',
+                        child: Text('Не выбрано'),
+                      ),
+                      ..._statusOptions.map((String status) {
+                        return DropdownMenuItem<String>(
+                          value: status,
+                          child: Text(status),
+                        );
+                      }),
+                    ],
+                    onChanged: (String? newValue) {
+                      setState(() {
+                        _selectedStatus = newValue == 'Не выбрано' ? null : newValue;
+                      });
+                    },
                   ),
                 ),
                 SizedBox(
                   width: 200,
                   child: TextField(
-                    controller: _yearController,
-                    keyboardType: TextInputType.number,
-                    decoration: InputDecoration(
-                      labelText: 'Год',
-                      border: const UnderlineInputBorder(),
+                    controller: _yearRangeController,
+                    readOnly: true,
+                    decoration: const InputDecoration(
+                      labelText: 'Диапазон годов',
+                      border: UnderlineInputBorder(),
                       isDense: true,
-                      errorText: _yearError,
+                      suffixIcon: Icon(Icons.calendar_today),
                     ),
-                    onChanged: (_) => _validateYear(),
+                    onTap: _selectYearRange,
                   ),
                 ),
                 SizedBox(

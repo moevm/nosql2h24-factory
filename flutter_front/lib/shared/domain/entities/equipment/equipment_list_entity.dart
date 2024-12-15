@@ -62,8 +62,12 @@ class EquipmentListEntity {
 
       // Check year filter
       if (filters.containsKey('year')) {
-        int yearFilter = int.parse(filters['year']);
-        if (item.details.year != yearFilter) {
+        String yearRange = filters['year'];
+        List<String> years = yearRange.split('-');
+        int startYear = int.parse(years[0]);
+        int endYear = int.parse(years[1]);
+
+        if (item.details.year < startYear || item.details.year > endYear) {
           return false;
         }
       }
