@@ -11,7 +11,7 @@ func (r *Repository) Insert(ctx context.Context, dataStr string) error {
 	data := bson.M{}
 	err := bson.UnmarshalExtJSON([]byte(dataStr), true, &data)
 	if err != nil {
-		return fmt.Errorf("unable to parse data to mongo insert. Err: %w", err)
+		return fmt.Errorf("[mongo] unable to parse data to mongo insert. Err: %w", err)
 	}
 
 	db := r.client.Database(r.databaseName)
