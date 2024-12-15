@@ -11,7 +11,7 @@ func (r *Repository) GetAllData(ctx context.Context) (string, error) {
 	db := r.client.Database(r.databaseName)
 	collections, err := db.ListCollectionNames(ctx, bson.D{})
 	if err != nil {
-		return "", fmt.Errorf("unable to get collections from mongo. Err: %w", err)
+		return "", fmt.Errorf("[mongo] unable to get collections from mongo. Err: %w", err)
 	}
 
 	result := bson.M{}
