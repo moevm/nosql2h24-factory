@@ -30,7 +30,7 @@ func (s *Service) GetStatistics(ctx context.Context, request domain.GetStatistic
 
 	stats, err := s.dao.GetStatistics(ctx, filter)
 	if err != nil {
-		return nil, fmt.Errorf("unable to get statistics info. Err: %w", err)
+		return nil, fmt.Errorf("[warnings] unable to get statistics info. Err: %w", err)
 	}
 
 	statsMap := make(map[string]float64, len(stats))
