@@ -21,7 +21,7 @@ func (r *Repository) SetSettings(ctx context.Context, username string, settings 
 
 	res, err := coll.UpdateOne(ctx, filter, update)
 	if err != nil {
-		return fmt.Errorf("unable to get data from mongo. Err: %w", err)
+		return fmt.Errorf("[staff] unable to get data from mongo. Err: %w", err)
 	}
 	if res.ModifiedCount == 0 {
 		return &errors.NotFoundError{}
